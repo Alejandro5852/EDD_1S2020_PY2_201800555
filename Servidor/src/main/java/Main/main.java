@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.servidor;
+package Main;
 
 /**
  *
  * @author alejandro
  */
 public class main {
-    public static void main(String[] args){
-        System.out.println("Hola mundo desde el servidor");
+    public static void main(String[] args) {
+        System.out.println("Hola mundooooooooooooo");
     }
     
 }
