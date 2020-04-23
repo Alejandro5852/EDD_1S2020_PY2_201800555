@@ -22,5 +22,20 @@ public class NodoAVL extends Nodo {
         super(ramaIzdo, valor, ramaDcho);
         fe = 0;
     }
-
 }
+/*
+    string Dot = "";
+    Dot+='\"'+player->getNombre().toStdString() + '\"'+"[label = " +'\"' +player->getNombre().toStdString() + '\"'+"];\n";
+    if(izq)
+    {
+        Dot+= izq->dot() + '\"' + player->getNombre().toStdString() + '\"' + ":C0->" + '\"' + izq->getPlayer()->getNombre().toStdString() + '\"' +";\n";
+    }
+    if(der)
+    {
+        Dot+= der->dot() + '\"' + player->getNombre().toStdString() + '\"' + ":C1->" + '\"' + der->getPlayer()->getNombre().toStdString() + '\"' +";\n";
+    }
+    Dot+="\n";
+    return Dot;
+
+
+*/
