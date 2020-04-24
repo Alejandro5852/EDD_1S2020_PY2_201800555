@@ -13,36 +13,54 @@ import Estructuras.Arboles.Comparador;
  */
 public class Categoria implements Comparador {
 
-    String Nombre;
+    private String Nombre;
+
+    public Categoria(String Nombre) {
+        this.Nombre = Nombre;
+    }
 
     @Override
     public boolean igualQue(Object q) {
         Categoria aux = (Categoria) q;
-        return Nombre.compareTo(aux.Nombre) == 0;
+        return getNombre().compareTo(aux.getNombre()) == 0;
     }
 
     @Override
     public boolean menorQue(Object q) {
         Categoria aux = (Categoria) q;
-        return Nombre.compareTo(aux.Nombre) < 0;
+        return getNombre().compareTo(aux.getNombre()) < 0;
     }
 
     @Override
     public boolean menorIgualQue(Object q) {
         Categoria aux = (Categoria) q;
-        return Nombre.compareTo(aux.Nombre) == 0 ||Nombre.compareTo(aux.Nombre) < 0;
+        return getNombre().compareTo(aux.getNombre()) == 0 || getNombre().compareTo(aux.getNombre()) < 0;
     }
 
     @Override
     public boolean mayorQue(Object q) {
         Categoria aux = (Categoria) q;
-        return Nombre.compareTo(aux.Nombre) > 0;
+        return getNombre().compareTo(aux.getNombre()) > 0;
     }
 
     @Override
     public boolean mayorIgualQue(Object q) {
         Categoria aux = (Categoria) q;
-        return Nombre.compareTo(aux.Nombre) == 0 ||Nombre.compareTo(aux.Nombre) > 0;
+        return getNombre().compareTo(aux.getNombre()) == 0 || getNombre().compareTo(aux.getNombre()) > 0;
+    }
+
+    /**
+     * @return the Nombre
+     */
+    public String getNombre() {
+        return Nombre;
+    }
+
+    /**
+     * @param Nombre the Nombre to set
+     */
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
     }
 
 }

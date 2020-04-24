@@ -5,6 +5,9 @@
  */
 package Estructuras.Arboles;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 /**
  *
  * @author alejandro
@@ -114,10 +117,9 @@ public class ArbolAVL {
                         break;
 
                     case 0:
-
                         raiz.fe = -1;
                         break;
-                    case -1: // aplicar rotación a la izquierda
+                    case -1:
                         n1 = (NodoAVL) raiz.subarbolIzdo();
                         if (n1.fe == -1) {
                             raiz = rotacionII(raiz, n1);
@@ -142,7 +144,6 @@ public class ArbolAVL {
                         }
                         h.setLogical(false);
                         break;
-
                     case 0:
                         raiz.fe = +1;
                         break;
@@ -272,8 +273,36 @@ public class ArbolAVL {
         }
         return n;
     }
-    public void dot(){
-        
+
+    public void dot() {
+        String Dot = "digraph G{\n rankdir = TB;\n node[shape = record, style= filled, fillcolor = gray];\n\n";
+        Dot += raiz.dot();
+        Dot += "}\n";
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try {
+            fichero = new FileWriter("/home/alejandro/Escritorio/AVL.dot");
+            escritor = new PrintWriter(fichero);
+            escritor.print(Dot);
+        } catch (Exception e) {
+            System.err.println("Error al escribir el archivo aux_grafico.dot");
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                System.err.println("Error al cerrar el archivo aux_grafico.dot");
+            }
+        }
+        try {
+            Runtime rt = Runtime.getRuntime();
+            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/AVL.jpg" + " /home/alejandro/Escritorio/AVL.dot");
+            Thread.sleep(500);
+        } catch (Exception ex) {
+            System.err.println("Error al generar la imagen para el archivo aux_grafico.dot");
+        }
+        System.out.println(Dot);
     }
 
 }

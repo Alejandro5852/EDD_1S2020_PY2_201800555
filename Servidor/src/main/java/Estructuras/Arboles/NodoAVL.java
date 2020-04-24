@@ -5,37 +5,71 @@
  */
 package Estructuras.Arboles;
 
+import Objetos.Categoria;
+
 /**
  *
  * @author alejandro
  */
-public class NodoAVL extends Nodo {
+public class NodoAVL {
+
+    protected Object dato;
+    protected NodoAVL izdo;
+    protected NodoAVL dcho;
 
     int fe;
 
     public NodoAVL(Object valor) {
-        super(valor);
+        dato = valor;
+        izdo = dcho = null;
         fe = 0;
     }
 
     public NodoAVL(Object valor, NodoAVL ramaIzdo, NodoAVL ramaDcho) {
-        super(ramaIzdo, valor, ramaDcho);
+        dato = valor;
+        izdo = ramaIzdo;
+        dcho = ramaDcho;
         fe = 0;
     }
+    //operaciones de acceso
+
+    public Object valorNodo() {
+        return dato;
+    }
+
+    public NodoAVL subarbolIzdo() {
+        return izdo;
+    }
+
+    public NodoAVL subarbolDcho() {
+        return dcho;
+    }
+
+    public void nuevoValor(Object d) {
+        dato = d;
+    }
+
+    public void ramaIzdo(NodoAVL n) {
+        izdo = n;
+    }
+
+    public void ramaDcho(NodoAVL n) {
+        dcho = n;
+    }
+
+    public String dot() {
+        String Dot = "";
+        Categoria aux = (Categoria) this.dato;
+        Dot += "\"" + aux.getNombre() + "\" [label = \"<C0>|" + aux.getNombre() + "|<C1>\"]\n";
+        if (izdo != null) {
+            Categoria temp = (Categoria) izdo.dato;
+            Dot += izdo.dot() + "\"" + aux.getNombre() + "\" :C0->\"" + temp.getNombre() + "\";\n";
+        }
+        if (dcho != null) {
+            Categoria temp = (Categoria) dcho.dato;
+            Dot += dcho.dot() + "\"" + aux.getNombre() + "\" :C1->\"" + temp.getNombre() + "\";\n";
+        }
+        Dot += "\n";
+        return Dot;
+    }
 }
-/*
-    string Dot = "";
-    Dot+='\"'+player->getNombre().toStdString() + '\"'+"[label = " +'\"' +player->getNombre().toStdString() + '\"'+"];\n";
-    if(izq)
-    {
-        Dot+= izq->dot() + '\"' + player->getNombre().toStdString() + '\"' + ":C0->" + '\"' + izq->getPlayer()->getNombre().toStdString() + '\"' +";\n";
-    }
-    if(der)
-    {
-        Dot+= der->dot() + '\"' + player->getNombre().toStdString() + '\"' + ":C1->" + '\"' + der->getPlayer()->getNombre().toStdString() + '\"' +";\n";
-    }
-    Dot+="\n";
-    return Dot;
-
-
-*/
