@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Estructuras.Listas;
+package Estructuras.Listas.SimplementeEnlazada;
 
 import Estructuras.Arboles.Comparador;
+import Estructuras.Listas.NodoL;
 import Objetos.Libro;
 import java.io.FileWriter;
 import java.io.PrintWriter;

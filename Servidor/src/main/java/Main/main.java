@@ -8,7 +8,7 @@ package Main;
 import Estructuras.Arboles.AVL.ArbolAVL;
 import Objetos.Categoria;
 import Objetos.Libro;
-import Estructuras.Listas.SimpleMenteEnlazada;
+import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
