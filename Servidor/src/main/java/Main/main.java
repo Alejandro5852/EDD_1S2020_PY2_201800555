@@ -25,30 +25,9 @@ import java.util.Iterator;
  * @author alejandro
  */
 public class main {
-    
+
     public static void main(String[] args) throws Exception {
         /*
-        ArbolAVL arbolito = new ArbolAVL();
-        Categoria uno = new Categoria("Ficción");
-        Categoria dos = new Categoria("Ciencia");
-        Categoria tres = new Categoria("Adultos");
-        Categoria cuatro = new Categoria("Fabulas");
-        Categoria cinco = new Categoria("Cuentos");
-        Categoria seis = new Categoria("Anime");
-        Categoria siete = new Categoria("Comics");
-        Categoria ocho = new Categoria("Aventura");
-        Categoria nueve = new Categoria("Matemática");
-        prueba.insertar(uno);
-        prueba.insertar(dos);
-        prueba.insertar(tres);
-        prueba.insertar(cuatro);
-        prueba.insertar(cinco);
-        prueba.insertar(seis);
-        prueba.insertar(siete);
-        prueba.insertar(ocho);
-        prueba.insertar(nueve);
-        prueba.eliminar(dos);
-        prueba.dot();
         SimpleMenteEnlazada prueba = new SimpleMenteEnlazada();
         ArbolAVL arbolito = new ArbolAVL();
         try {
@@ -58,18 +37,27 @@ public class main {
             JsonArray libros = (JsonArray) jsonObject.get("libros");
             for (int i = 0; i < libros.size(); i++) {
                 JsonObject obj = (JsonObject) libros.get(i);
-                Libro libro = new Libro(Integer.parseInt(obj.get("ISBN").toString()), Integer.parseInt(obj.get("Año").toString()), obj.get("Idioma").toString(),
-                        obj.get("Titulo").toString(), obj.get("Editorial").toString(), obj.get("Autor").toString(),
-                        Integer.parseInt(obj.get("Edicion").toString()), obj.get("Categoria").toString());
-                Categoria categoria = new Categoria(obj.get("Categoria").toString());
+                String idioma = obj.get("Idioma").toString().substring(1);
+                idioma = idioma.substring(0, (idioma.length() - 1));
+                String titulo = obj.get("Titulo").toString().substring(1);
+                titulo = titulo.substring(0, (titulo.length() - 1));
+                String editorial = obj.get("Editorial").toString().substring(1);
+                editorial = editorial.substring(0, (editorial.length() - 1));
+                String autor = obj.get("Autor").toString().substring(1);
+                autor = autor.substring(0, (autor.length() - 1));
+                String cat = obj.get("Categoria").toString().substring(1);
+                cat = cat.substring(0, (cat.length() - 1));
+                Libro libro = new Libro(Integer.parseInt(obj.get("ISBN").toString()), Integer.parseInt(obj.get("Año").toString()),
+                idioma, titulo, editorial, autor, Integer.parseInt(obj.get("Edicion").toString()), cat);
+                Categoria categoria = new Categoria(cat);
                 prueba.insertar(libro);
-                //arbolito.insertar(categoria);
+                arbolito.insertar(categoria);
             }
         } catch (Exception e) {
             System.out.println("Error en la lectura del archivo de configuracion " + e);
         }
         prueba.dot();
-       // arbolito.dot();
+        arbolito.dot();
 */
     }
 }

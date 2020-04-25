@@ -5,6 +5,7 @@
  */
 package Estructuras.Arboles;
 
+import Objetos.Categoria;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -154,7 +155,7 @@ public class ArbolAVL {
                 }
             }
         } else {
-            throw new Exception("No puede haber claves repetidas ");
+            System.out.println("CLAVE REPETIDA");
         }
         return raiz;
     }
@@ -305,4 +306,20 @@ public class ArbolAVL {
         }
     }
 
+    public boolean existe(String clave) {
+        boolean existe = false;
+        NodoAVL raizsub = raiz;
+        while (existe == false && raizsub != null) {
+            Categoria a = (Categoria) raizsub.valorNodo();
+            if (a.getNombre() == clave) {
+                existe = true;
+            } else if (a.getNombre().compareTo(clave) > 0) {
+                raizsub = raizsub.subarbolIzdo();
+            } else {
+                raizsub = raizsub.subarbolDcho();
+            }
+        }
+        return existe;
+    }
 }
+

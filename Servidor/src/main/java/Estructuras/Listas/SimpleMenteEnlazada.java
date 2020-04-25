@@ -90,7 +90,7 @@ public class SimpleMenteEnlazada {
                 if (contador > 0) {
                     Dot += "a" + (contador - 1) + "->a" + contador + ";\n";
                 }
-                Dot += "a" + contador + "[label = " + libro.getTitulo() + "];\n";
+                Dot += "a" + contador + "[label = \"" + libro.getTitulo() + "\"];\n";
                 contador++;
                 temp = temp.getSiguiente();
             }
@@ -102,14 +102,14 @@ public class SimpleMenteEnlazada {
                 escritor = new PrintWriter(fichero);
                 escritor.print(Dot);
             } catch (Exception e) {
-                System.err.println("Error al escribir el archivo aux_grafico.dot");
+                System.err.println("Error al escribir el archivo Libros.dot");
             } finally {
                 try {
                     if (null != fichero) {
                         fichero.close();
                     }
                 } catch (Exception e2) {
-                    System.err.println("Error al cerrar el archivo aux_grafico.dot");
+                    System.err.println("Error al cerrar el archivo Libros.dot");
                 }
             }
             try {
@@ -117,7 +117,7 @@ public class SimpleMenteEnlazada {
                 rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/Libros.jpg" + " /home/alejandro/Escritorio/Libros.dot");
                 Thread.sleep(500);
             } catch (Exception ex) {
-                System.err.println("Error al generar la imagen para el archivo aux_grafico.dot");
+                System.err.println("Error al generar la imagen para el archivo Libros.dot");
             }
         }
     }
