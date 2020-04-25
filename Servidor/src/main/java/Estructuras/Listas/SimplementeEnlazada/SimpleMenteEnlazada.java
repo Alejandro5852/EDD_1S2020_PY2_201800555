@@ -9,6 +9,7 @@ import Estructuras.Arboles.Comparador;
 import Estructuras.Listas.NodoL;
 import Objetos.Libro;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -102,14 +103,14 @@ public class SimpleMenteEnlazada {
                 fichero = new FileWriter("/home/alejandro/Escritorio/Libros.dot");
                 escritor = new PrintWriter(fichero);
                 escritor.print(Dot);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 System.err.println("Error al escribir el archivo Libros.dot");
             } finally {
                 try {
                     if (null != fichero) {
                         fichero.close();
                     }
-                } catch (Exception e2) {
+                } catch (IOException e2) {
                     System.err.println("Error al cerrar el archivo Libros.dot");
                 }
             }
@@ -117,9 +118,34 @@ public class SimpleMenteEnlazada {
                 Runtime rt = Runtime.getRuntime();
                 rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/Libros.jpg" + " /home/alejandro/Escritorio/Libros.dot");
                 Thread.sleep(500);
-            } catch (Exception ex) {
+            } catch (IOException | InterruptedException ex) {
                 System.err.println("Error al generar la imagen para el archivo Libros.dot");
             }
         }
+    }
+
+    public Object Primero() {
+        Object primero = null;
+        if (!estaVacio()) {
+            NodoL aux = cabeza;
+            primero = aux.getValor();
+        }
+        return primero;
+    }
+
+    public Object Ultimo() {
+        Object ultimo = null;
+        if (!estaVacio()) {
+            NodoL temp = cabeza;
+            for (int i = 0; i < tamaño; i++) {
+                temp = temp.getSiguiente();
+            }
+            ultimo = temp.getValor();
+        }
+        return ultimo;
+    }
+
+    public int Tamaño() {
+        return tamaño;
     }
 }
