@@ -275,7 +275,8 @@ public class ArbolAVL {
     }
 
     public void dot() {
-        String Dot = "digraph G{\n rankdir = TB;\n node[shape = record, style= filled, fillcolor = gray];\n\n";
+        String Dot = "digraph G{\n rankdir = TB;\n node[shape = record, style= filled, fillcolor = gray];\n";
+        Dot += "label =  <<font point-size='20'>AVL de categorías</font>>;\n";
         Dot += raiz.dot();
         Dot += "}\n";
         FileWriter fichero = null;
@@ -285,14 +286,14 @@ public class ArbolAVL {
             escritor = new PrintWriter(fichero);
             escritor.print(Dot);
         } catch (Exception e) {
-            System.err.println("Error al escribir el archivo aux_grafico.dot");
+            System.err.println("Error al escribir el archivo AVL.dot");
         } finally {
             try {
                 if (null != fichero) {
                     fichero.close();
                 }
             } catch (Exception e2) {
-                System.err.println("Error al cerrar el archivo aux_grafico.dot");
+                System.err.println("Error al cerrar el archivo AVL.dot");
             }
         }
         try {
@@ -300,9 +301,8 @@ public class ArbolAVL {
             rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/AVL.jpg" + " /home/alejandro/Escritorio/AVL.dot");
             Thread.sleep(500);
         } catch (Exception ex) {
-            System.err.println("Error al generar la imagen para el archivo aux_grafico.dot");
+            System.err.println("Error al generar la imagen para el archivo AVL.dot");
         }
-        System.out.println(Dot);
     }
 
 }
