@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Estructuras.Arboles;
+package Estructuras.Arboles.AVL;
 
+import Estructuras.Arboles.Comparador;
+import Estructuras.Arboles.ABB.Logical;
 import Objetos.Categoria;
 import java.io.FileWriter;
 import java.io.PrintWriter;

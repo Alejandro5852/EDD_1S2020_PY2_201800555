@@ -5,20 +5,14 @@
  */
 package Main;
 
-import Estructuras.Arboles.ArbolAVL;
+import Estructuras.Arboles.AVL.ArbolAVL;
 import Objetos.Categoria;
 import Objetos.Libro;
 import Estructuras.Listas.SimpleMenteEnlazada;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonParseException;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.Iterator;
 
 /**
  *
@@ -27,7 +21,7 @@ import java.util.Iterator;
 public class main {
 
     public static void main(String[] args) throws Exception {
-        /*
+
         SimpleMenteEnlazada prueba = new SimpleMenteEnlazada();
         ArbolAVL arbolito = new ArbolAVL();
         try {
@@ -48,7 +42,7 @@ public class main {
                 String cat = obj.get("Categoria").toString().substring(1);
                 cat = cat.substring(0, (cat.length() - 1));
                 Libro libro = new Libro(Integer.parseInt(obj.get("ISBN").toString()), Integer.parseInt(obj.get("Año").toString()),
-                idioma, titulo, editorial, autor, Integer.parseInt(obj.get("Edicion").toString()), cat);
+                        idioma, titulo, editorial, autor, Integer.parseInt(obj.get("Edicion").toString()), cat);
                 Categoria categoria = new Categoria(cat);
                 prueba.insertar(libro);
                 arbolito.insertar(categoria);
@@ -58,6 +52,6 @@ public class main {
         }
         prueba.dot();
         arbolito.dot();
-*/
+
     }
 }
