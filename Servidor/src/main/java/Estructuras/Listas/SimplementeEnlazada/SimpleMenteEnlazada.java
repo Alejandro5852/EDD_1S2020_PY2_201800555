@@ -26,7 +26,8 @@ public class SimpleMenteEnlazada {
         tamaño = 0;
     }
 
-    public void insertar(Object dato) {
+    public boolean insertar(Object dato) {
+        boolean repetido = true;
         NodoL nuevo = new NodoL(dato);
         if (this.estaVacio()) {
             cabeza = nuevo;
@@ -40,11 +41,15 @@ public class SimpleMenteEnlazada {
                 while (temp.getSiguiente() != null && dt.mayorQue(temp.getSiguiente().getValor())) {
                     temp = temp.getSiguiente();
                 }
-                nuevo.setSiguiente(temp.getSiguiente());
-                temp.setSiguiente(nuevo);
+                if (!dt.igualQue(temp.getValor())) {
+                    nuevo.setSiguiente(temp.getSiguiente());
+                    temp.setSiguiente(nuevo);
+                    tamaño++;
+                    repetido = false;
+                }
             }
         }
-        tamaño++;
+        return repetido;
     }
 
     public boolean estaVacio() {
@@ -79,6 +84,18 @@ public class SimpleMenteEnlazada {
             }
         }
         tamaño--;
+        return encontrado;
+    }
+
+    public Object at(int indice) {
+        Object encontrado = null;
+        if (indice < tamaño) {
+            NodoL temp = cabeza;
+            for (int i = 0; i < indice; i++) {
+                temp = temp.getSiguiente();
+            }
+            encontrado = temp.getValor();
+        }
         return encontrado;
     }
 
