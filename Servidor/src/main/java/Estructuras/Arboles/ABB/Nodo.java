@@ -5,6 +5,8 @@
  */
 package Estructuras.Arboles.ABB;
 
+import Objetos.Categoria;
+
 /**
  *
  * @author alejandro

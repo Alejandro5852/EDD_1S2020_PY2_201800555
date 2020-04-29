@@ -7,6 +7,7 @@ package Estructuras.Listas.SimplementeEnlazada;
 
 import Estructuras.Arboles.Comparador;
 import Estructuras.Listas.NodoL;
+import Objetos.Categoria;
 import Objetos.Libro;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -87,17 +88,19 @@ public class SimpleMenteEnlazada {
         return encontrado;
     }
 
-    public void dot() {
+    public void dot(int tipo, String titulo) {
         if (!this.estaVacio()) {
             int contador = 0;
-            String Dot = "digraph G{\n rankdir = LR;\n node[color = green, style = filled, shape = record];\n";
+            String Dot = "digraph G{\n rankdir = LR;\n node[color = mediumpurple, style = filled, shape = record];\n";
             NodoL temp = cabeza;
-            while (temp.getSiguiente() != null) {
-                Libro libro = (Libro) temp.getValor();
+            while (temp != null) {
                 if (contador > 0) {
                     Dot += "a" + (contador - 1) + "->a" + contador + ";\n";
                 }
-                Dot += "a" + contador + "[label = \"" + libro.getTitulo() + "\"];\n";
+                if (tipo == 0) {
+                    Categoria cat = (Categoria) temp.getValor();
+                    Dot += "a" + contador + "[label = \"" + cat.getNombre() + "\"];\n";
+                }
                 contador++;
                 temp = temp.getSiguiente();
             }
@@ -105,26 +108,26 @@ public class SimpleMenteEnlazada {
             FileWriter fichero = null;
             PrintWriter escritor;
             try {
-                fichero = new FileWriter("/home/alejandro/Escritorio/Libros.dot");
+                fichero = new FileWriter("/home/alejandro/Escritorio/" + titulo + ".dot");
                 escritor = new PrintWriter(fichero);
                 escritor.print(Dot);
             } catch (IOException e) {
-                System.err.println("Error al escribir el archivo Libros.dot");
+                System.err.println("Error al escribir el archivo " + titulo + ".dot");
             } finally {
                 try {
                     if (null != fichero) {
                         fichero.close();
                     }
                 } catch (IOException e2) {
-                    System.err.println("Error al cerrar el archivo Libros.dot");
+                    System.err.println("Error al cerrar el archivo " + titulo + ".dot");
                 }
             }
             try {
                 Runtime rt = Runtime.getRuntime();
-                rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/Libros.jpg" + " /home/alejandro/Escritorio/Libros.dot");
+                rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/" + titulo + ".jpg" + " /home/alejandro/Escritorio/" + titulo + ".dot");
                 Thread.sleep(500);
             } catch (IOException | InterruptedException ex) {
-                System.err.println("Error al generar la imagen para el archivo Libros.dot");
+                System.err.println("Error al generar la imagen para el archivo " + titulo + ".dot");
             }
         }
     }

@@ -7,7 +7,7 @@ package Estructuras.Arboles.AVL;
 
 import Estructuras.Arboles.Comparador;
 import Estructuras.Arboles.ABB.Logical;
-import Objetos.Categoria;
+import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -308,20 +308,68 @@ public class ArbolAVL {
         }
     }
 
-    public boolean existe(String clave) {
-        boolean existe = false;
-        NodoAVL raizsub = raiz;
-        while (existe == false && raizsub != null) {
-            Categoria a = (Categoria) raizsub.valorNodo();
-            if (a.getNombre() == clave) {
-                existe = true;
-            } else if (a.getNombre().compareTo(clave) > 0) {
-                raizsub = raizsub.subarbolIzdo();
-            } else {
-                raizsub = raizsub.subarbolDcho();
+    public void dotPreOrder() {
+        SimpleMenteEnlazada preOrder = objetos(0);
+        preOrder.dot(0, "AVL_PreOrder");
+    }
+
+    public void dotInOrder() {
+        SimpleMenteEnlazada inOrder = objetos(1);
+        inOrder.dot(0, "AVL_InOrder");
+    }
+
+    public void dotPosOrder() {
+        SimpleMenteEnlazada posOrder = objetos(2);
+        posOrder.dot(0, "AVL_PosOrder");
+    }
+
+    private SimpleMenteEnlazada objetos(int tipo) {
+        SimpleMenteEnlazada lista = new SimpleMenteEnlazada();
+        crearLista(lista, raiz, tipo);
+        return lista;
+    }
+
+    private void crearLista(SimpleMenteEnlazada lista, NodoAVL nodo, int tipo) {
+        if (nodo != null) {
+            switch (tipo) {
+                case 0:
+                    //pre order
+                    lista.insertar(nodo.valorNodo());
+                    crearLista(lista, nodo.subarbolIzdo(), 0);
+                    crearLista(lista, nodo.subarbolDcho(), 0);
+
+                    break;
+                case 1:
+                    //in order
+                    crearLista(lista, nodo.subarbolIzdo(), 1);
+                    lista.insertar(nodo.valorNodo());
+                    crearLista(lista, nodo.subarbolDcho(), 1);
+                    break;
+                case 2:
+                    //pos order
+                    crearLista(lista, nodo.subarbolIzdo(), 2);
+                    crearLista(lista, nodo.subarbolDcho(), 2);
+                    lista.insertar(nodo.valorNodo());
+                    break;
             }
         }
-        return existe;
+    }
+
+    public boolean buscar(Object buscado) {
+        boolean encontrado = false;
+        if (raiz != null) {
+            NodoAVL raizSub = raiz;
+            Comparador comp = (Comparador) buscado;
+            while (encontrado == false && raizSub != null) {
+                if (comp.igualQue(raizSub.valorNodo())) {
+                    encontrado = true;
+                } else if (comp.menorQue(raizSub.valorNodo())) {
+                    raizSub = raizSub.subarbolIzdo();
+                } else {
+                    raizSub = raizSub.subarbolDcho();
+                }
+            }
+        }
+        return encontrado;
     }
 }
-

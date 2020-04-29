@@ -101,7 +101,6 @@ public class DobleMenteEnlazada {
             aux = aux.getSiguiente();
         }
         Dot += "}";
-        System.out.println(Dot);
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
