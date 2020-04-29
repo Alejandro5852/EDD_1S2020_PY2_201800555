@@ -1,4 +1,5 @@
 package Estructuras.Arboles.B;
+
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Stack;
@@ -7,22 +8,31 @@ public class BTree<K extends Comparable, V> {
 
     public final static int REBALANCE_FOR_LEAF_NODE = 1;
     public final static int REBALANCE_FOR_INTERNAL_NODE = 2;
+    private String category = "";
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
     private BTNode<K, V> mRoot = null;
     private long mSize = 0L;
     private BTNode<K, V> mIntermediateInternalNode = null;
     private int mNodeIdx = 0;
     private final Stack<StackInfo> mStackTracer = new Stack<StackInfo>();
+
     public BTNode<K, V> getRootNode() {
         return mRoot;
     }
+
     public long size() {
         return mSize;
     }
+
     public void clear() {
         mSize = 0L;
         mRoot = null;
     }
+
     private BTNode<K, V> createNode() {
         BTNode<K, V> btNode;
         btNode = new BTNode();
@@ -30,6 +40,7 @@ public class BTree<K extends Comparable, V> {
         btNode.mCurrentKeyNum = 0;
         return btNode;
     }
+
     public V search(K key) {
         BTNode<K, V> currentNode = mRoot;
         BTKeyValue<K, V> currentKey;
@@ -61,6 +72,7 @@ public class BTree<K extends Comparable, V> {
 
         return null;
     }
+
     public BTree insert(K key, V value) {
         if (mRoot == null) {
             mRoot = createNode();
@@ -79,6 +91,7 @@ public class BTree<K extends Comparable, V> {
         insertKeyAtNode(mRoot, key, value);
         return this;
     }
+
     private void insertKeyAtNode(BTNode rootNode, K key, V value) {
         int i;
         int currentKeyNum = rootNode.mCurrentKeyNum;
@@ -152,6 +165,7 @@ public class BTree<K extends Comparable, V> {
 
         insertKeyAtNode(btNode, key, value);
     }
+
     private void splitNode(BTNode parentNode, int nodeIdx, BTNode btNode) {
         int i;
 
@@ -172,7 +186,6 @@ public class BTree<K extends Comparable, V> {
             }
         }
 
-
         btNode.mCurrentKeyNum = BTNode.LOWER_BOUND_KEYNUM;
 
         for (i = parentNode.mCurrentKeyNum; i > nodeIdx; --i) {
@@ -180,7 +193,6 @@ public class BTree<K extends Comparable, V> {
             parentNode.mChildren[i] = null;
         }
         parentNode.mChildren[nodeIdx + 1] = newNode;
-
 
         for (i = parentNode.mCurrentKeyNum - 1; i >= nodeIdx; --i) {
             parentNode.mKeys[i + 1] = parentNode.mKeys[i];
@@ -190,7 +202,6 @@ public class BTree<K extends Comparable, V> {
         btNode.mKeys[BTNode.LOWER_BOUND_KEYNUM] = null;
         ++(parentNode.mCurrentKeyNum);
     }
-
 
     private BTNode<K, V> findPredecessor(BTNode<K, V> btNode, int nodeIdx) {
         if (btNode.mIsLeaf) {
@@ -219,7 +230,6 @@ public class BTree<K extends Comparable, V> {
         return btNode;
     }
 
-
     private BTNode<K, V> findPredecessorForNode(BTNode<K, V> btNode, int keyIdx) {
         BTNode<K, V> predecessorNode;
         BTNode<K, V> originalNode = btNode;
@@ -242,7 +252,6 @@ public class BTree<K extends Comparable, V> {
         return btNode;
     }
 
-
     private void performLeftRotation(BTNode<K, V> btNode, int nodeIdx, BTNode<K, V> parentNode, BTNode<K, V> rightSiblingNode) {
         int parentKeyIdx = nodeIdx;
 
@@ -260,7 +269,6 @@ public class BTree<K extends Comparable, V> {
         rightSiblingNode.mChildren[rightSiblingNode.mCurrentKeyNum] = rightSiblingNode.mChildren[rightSiblingNode.mCurrentKeyNum + 1];
         rightSiblingNode.mChildren[rightSiblingNode.mCurrentKeyNum + 1] = null;
     }
-
 
     private void performRightRotation(BTNode<K, V> btNode, int nodeIdx, BTNode<K, V> parentNode, BTNode<K, V> leftSiblingNode) {
         int parentKeyIdx = nodeIdx;
@@ -379,7 +387,6 @@ public class BTree<K extends Comparable, V> {
 
         listEntriesInOrder(mRoot, iterImpl);
     }
-
 
     private boolean listEntriesInOrder(BTNode<K, V> treeNode, BTIteratorIF<K, V> iterImpl) {
         if ((treeNode == null)
@@ -622,7 +629,7 @@ public class BTree<K extends Comparable, V> {
             // Only root left
             mRoot = parentNode.mChildren[nodeIdx];
             mRoot.mIsLeaf = true;
-            return false;  
+            return false;
         }
 
         return true;
@@ -667,6 +674,7 @@ public class BTree<K extends Comparable, V> {
 
         return true;
     }
+
     private void rebalanceTree(BTNode<K, V> upperNode, BTNode<K, V> lowerNode, K key) {
         mStackTracer.clear();
         mStackTracer.add(new StackInfo(null, upperNode, 0));
@@ -740,31 +748,32 @@ public class BTree<K extends Comparable, V> {
 
     public void dot() {
         String Dot = "digraph G{\nrankdir=TB\nnode[shape = record, style = filled, fillcolor = skyblue];\n";
+        Dot += "label =  <<font point-size='20'>Arbol B: " + this.category + "</font>>;\nlabelloc = \"t \";\n";
         Dot += mRoot.dot();
         Dot += "}";
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
-            fichero = new FileWriter("/home/alejandro/Escritorio/ArbolB.dot");
+            fichero = new FileWriter("/home/alejandro/Escritorio/ArbolB_"+ this.category +".dot");
             escritor = new PrintWriter(fichero);
             escritor.print(Dot);
         } catch (Exception e) {
-            System.err.println("Error al escribir el archivo ArbolB.dot");
+            System.err.println("Error al escribir el archivo ArbolB_"+ this.category +".dot");
         } finally {
             try {
                 if (null != fichero) {
                     fichero.close();
                 }
             } catch (Exception e2) {
-                System.err.println("Error al cerrar el archivo ArbolB.dot");
+                System.err.println("Error al cerrar el archivo ArbolB_"+ this.category +".dot");
             }
         }
         try {
             Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/ArbolB.jpg" + " /home/alejandro/Escritorio/ArbolB.dot");
+            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/ArbolB_"+ this.category +".jpg" + " /home/alejandro/Escritorio/ArbolB_"+ this.category +".dot");
             Thread.sleep(500);
         } catch (Exception ex) {
-            System.err.println("Error al generar la imagen para el archivo ArbolB.dot");
+            System.err.println("Error al generar la imagen para el archivo ArbolB_"+ this.category +".dot");
         }
     }
 }

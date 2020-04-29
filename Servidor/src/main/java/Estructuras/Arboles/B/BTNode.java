@@ -1,5 +1,7 @@
 package Estructuras.Arboles.B;
 
+import Objetos.Libro;
+
 
 
 /**
@@ -31,7 +33,8 @@ public class BTNode<K extends Comparable, V>
         String Dot ="";
         Dot+=getName()+"[label = \"<P0>";
         for(int i = 0; i<mCurrentKeyNum;i++){
-            Dot+="|"+mKeys[i].mKey+"|<P"+(i+1)+">";
+            BTKeyValue<String,Libro> clave = (BTKeyValue<String,Libro>) mKeys[i];
+            Dot+="|"+clave.mKey+"; ISBN:"+clave.mValue.getISBN()+"|<P"+(i+1)+">";
         }
         Dot+="\"];\n";
         for(int i = 0; i<=mCurrentKeyNum;i++){
