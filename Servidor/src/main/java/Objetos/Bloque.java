@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Objetos;
+import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 
 /**
  *
@@ -13,11 +14,11 @@ public class Bloque {
 
     private int INDEX, NONCE;
     private String TIMESTAMP;
-    private String DATA;
+    private SimpleMenteEnlazada DATA;
     private String PREVIOUSHASH;
     private String HASH;
 
-    public Bloque(int INDEX, String TIMESTAMP, String DATA) {
+    public Bloque(int INDEX, String TIMESTAMP, SimpleMenteEnlazada DATA) {
         this.INDEX = INDEX;
         this.TIMESTAMP = TIMESTAMP;
         this.DATA = DATA;
@@ -47,11 +48,11 @@ public class Bloque {
         this.TIMESTAMP = TIMESTAMP;
     }
 
-    public String getDATA() {
+    public SimpleMenteEnlazada getDATA() {
         return DATA;
     }
 
-    public void setDATA(String DATA) {
+    public void setDATA(SimpleMenteEnlazada DATA) {
         this.DATA = DATA;
     }
 

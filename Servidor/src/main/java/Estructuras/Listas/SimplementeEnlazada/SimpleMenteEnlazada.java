@@ -26,30 +26,18 @@ public class SimpleMenteEnlazada {
         tamaño = 0;
     }
 
-    public boolean insertar(Object dato) {
-        boolean repetido = true;
+    public void insertar(Object dato) {
         NodoL nuevo = new NodoL(dato);
         if (this.estaVacio()) {
             cabeza = nuevo;
         } else {
-            Comparador dt = (Comparador) dato;
-            if (dt.menorQue(cabeza.getValor())) {
-                nuevo.setSiguiente(cabeza);
-                cabeza = nuevo;
-            } else {
-                NodoL temp = cabeza;
-                while (temp.getSiguiente() != null && dt.mayorQue(temp.getSiguiente().getValor())) {
-                    temp = temp.getSiguiente();
-                }
-                if (!dt.igualQue(temp.getValor())) {
-                    nuevo.setSiguiente(temp.getSiguiente());
-                    temp.setSiguiente(nuevo);
-                    tamaño++;
-                    repetido = false;
-                }
+            NodoL temp = cabeza;
+            while (temp.getSiguiente() != null) {
+                temp = temp.getSiguiente();
             }
+            temp.setSiguiente(nuevo);
         }
-        return repetido;
+        tamaño++;
     }
 
     public boolean estaVacio() {

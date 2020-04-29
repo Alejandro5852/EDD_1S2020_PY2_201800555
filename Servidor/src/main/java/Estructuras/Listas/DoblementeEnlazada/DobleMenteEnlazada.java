@@ -6,6 +6,10 @@
 package Estructuras.Listas.DoblementeEnlazada;
 
 import Estructuras.Listas.NodoL;
+import Objetos.Bloque;
+import Objetos.Operacion;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 /**
  *
@@ -27,17 +31,23 @@ public class DobleMenteEnlazada {
         NodoL nuevo = new NodoL(dato);
         if (estaVacio()) {
             this.cabeza = nuevo;
+            this.cabeza.setAnterior(null);
+            this.cabeza.setSiguiente(null);
         } else {
             NodoL auxiliar = this.cabeza;
-            while (auxiliar.getSiguiente() != this.cabeza) {
+            while (auxiliar.getSiguiente() != null) {
                 auxiliar = auxiliar.getSiguiente();
             }
             auxiliar.setSiguiente(nuevo);
             nuevo.setAnterior(auxiliar);
-            nuevo.setSiguiente(this.cabeza);
+            nuevo.setSiguiente(null);
             this.cabeza.setAnterior(nuevo);
         }
         this.tamaño++;
+    }
+
+    public void setPuerto(String puerto) {
+        this.puerto = puerto;
     }
 
     public boolean existe(Object dato) {
@@ -69,8 +79,52 @@ public class DobleMenteEnlazada {
     }
 
     public void dot() {
-        String Dot = "digraph G{\nnode[shape = record, style=filled, fillcolor=red]\noverlap=false;\nsplines=true;\ngraph[dpi=90];\n";
-        Dot += "label =  <<font point-size='20'>Lista doblemente enlazada BLOCKCHAIN del puerto: " + this.puerto+"</font>>;\nlabelloc = \"t \";\n";
+        String Dot = "digraph G{\nnode[fillcolor = skyblue, style = filled, shape = record];\n";
+        Dot += "label =  <<font point-size='20'>Lista doblemente enlazada BLOCKCHAIN del puerto: " + this.puerto + "</font>>;\nlabelloc = \"t \";\n";
         NodoL aux = cabeza;
+        int contador = 0;
+        while (aux != null) {
+            Bloque temp = (Bloque) aux.getValor();
+            if (aux != cabeza) {
+                Dot += "a" + (contador - 1) + "->a" + contador + ";\n";
+                Dot += "a" + contador + "->a" + (contador - 1) + ";\n";
+            }
+            String Data = "";
+            for (int i = 0; i < temp.getDATA().Tamaño(); i++) {
+                Operacion op = (Operacion)temp.getDATA().at(i);
+                Data += op.paraGraphviz();
+            }
+            Dot += "a" + contador + "[label = \"{INDEX|TIMESTAMP|DATA|NONCE|PREVIOUSHASH|HASH}|{"
+                    + temp.getINDEX() + "|" + temp.getTIMESTAMP() + "|" + Data + "|" + temp.getNONCE()
+                    + "|" + temp.getPREVIOUSHASH() + "|" + temp.getHASH() + "}\"];\n";
+            contador++;
+            aux = aux.getSiguiente();
+        }
+        Dot += "}";
+        System.out.println(Dot);
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try {
+            fichero = new FileWriter("/home/alejandro/Escritorio/BloquesPuerto_" + this.puerto + ".dot");
+            escritor = new PrintWriter(fichero);
+            escritor.print(Dot);
+        } catch (Exception e) {
+            System.err.println("Error al escribir el archivo BloquesPuerto_" + this.puerto + ".dot");
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                System.err.println("Error al cerrar el archivo BloquesPuerto_" + this.puerto + ".dot");
+            }
+        }
+        try {
+            Runtime rt = Runtime.getRuntime();
+            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/BloquesPuerto_" + this.puerto + ".jpg" + " /home/alejandro/Escritorio/BloquesPuerto_" + this.puerto + ".dot");
+            Thread.sleep(500);
+        } catch (Exception ex) {
+            System.err.println("Error al generar la imagen para el archivo BloquesPuerto_" + this.puerto + ".dot");
+        }
     }
 }
