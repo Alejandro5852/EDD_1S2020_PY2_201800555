@@ -5,13 +5,16 @@
  */
 package Main;
 
+import Interfaz.InterfazGrafica;
+
 /**
  *
  * @author alejandro
  */
 public class main {
+
     public static void main(String[] args) {
-        System.out.println("Hola mundo desde cliente");
+        InterfazGrafica interfaz = new InterfazGrafica();
+        interfaz.setVisible(true);
     }
-    
 }

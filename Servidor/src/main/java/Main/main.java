@@ -5,6 +5,8 @@
  */
 package Main;
 
+import Objetos.Servidor;
+
 /**
  *
  * @author alejandro
@@ -12,6 +14,9 @@ package Main;
 public class main {
 
     public static void main(String[] args) {
-
+        Servidor servidor = new Servidor(30000);
+        Thread hilo = new Thread(servidor);
+        hilo.start();
     }
+
 }
