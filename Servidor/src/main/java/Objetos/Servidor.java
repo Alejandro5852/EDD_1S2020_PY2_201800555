@@ -63,14 +63,14 @@ public class Servidor implements Runnable {
         nueva.setServidor(this);
         Thread hiloNuevaInstancia = new Thread(nueva);
         hiloNuevaInstancia.run();
-        nueva.mandar("Cliente proveniente de la instancia con servidor de dirección IP: " + servidor.getInetAddress() + ", y puerto: "+ this.puerto);
+        nueva.mandar("Cliente proveniente de la instancia con servidor de direccion IP: " + servidor.getInetAddress() + ", y puerto: "+ this.puerto);
         instancias.insertar(nueva);
         nodos.insertar(new NodoRed(ip, puerto));
         System.out.println("NUEVA INSTANCIA :" + ip + "::" + puerto);
     }
     
     public String getIp() {
-        return servidor.getInetAddress().toString();
+        return servidor.getInetAddress().getHostAddress().toString();
     }
     
     public void eliminar(int indice) {

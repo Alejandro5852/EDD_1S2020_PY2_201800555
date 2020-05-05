@@ -120,6 +120,11 @@ public class Inicio extends javax.swing.JFrame {
 
         jTextField4.setBackground(new java.awt.Color(102, 102, 102));
         jTextField4.setSelectionColor(new java.awt.Color(51, 51, 51));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(102, 102, 102));
         jButton2.setText("...");
@@ -324,6 +329,10 @@ public class Inicio extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "ERROR");
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
