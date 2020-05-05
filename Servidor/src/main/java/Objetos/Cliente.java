@@ -29,21 +29,21 @@ import java.util.logging.Logger;
 public class Cliente extends Thread {
 
     private Socket socket;
-    SimpleMenteEnlazada lista;
     int indice;
     private DobleMenteEnlazada bloques;
     private ArbolAVL categorias;
     private TablaHash usuarios;
     private SimpleMenteEnlazada DATA = null;
+    private Servidor servidor;
 
-    public Cliente(Socket socket, SimpleMenteEnlazada lista, int indice, ArbolAVL categorias, TablaHash usuarios) {
+    public Cliente(Socket socket, int indice, ArbolAVL categorias, TablaHash usuarios, Servidor servidor) {
         this.socket = socket;
-        this.lista = lista;
         this.indice = indice;
         this.bloques = new DobleMenteEnlazada();
         this.categorias = categorias;
         this.usuarios = usuarios;
         this.bloques.setPuerto(Integer.toString(socket.getPort()));
+        this.servidor = servidor;
     }
 
     public void run() {
@@ -115,21 +115,33 @@ public class Cliente extends Thread {
                     bloques.dot();
                 } else if (mensaje.compareTo("LISTA_IP") == 0) {
                     System.out.println("SOLICITUD DE LISTA IP");
-                    if (lista.Tamaño() == 1) {
+                    if (servidor.getNodos().Tamaño() == 1) {
                         escriba.println("FINAL");
                     } else {
-                        for (int i = 0; i < lista.Tamaño(); i++) {
-                            Socket sc = (Socket) lista.at(i);
-                            escriba.println(sc.getInetAddress().toString());
-                            escriba.println(Integer.toString(sc.getPort()));
+                        for (int i = 0; i < (servidor.getNodos().Tamaño() - 1); i++) {
+                            NodoRed nodo = (NodoRed) servidor.getNodos().at(i);
+                            escriba.println(nodo.getDireccionIP());
+                            escriba.println(nodo.getPuerto());
                         }
                         escriba.println("FINAL");
                     }
+                } else if (mensaje.compareTo("DATOS") == 0) {
+                    while (true) {
+                        String ip = lector.readLine();
+                        if (ip.compareTo("0.0.0.0/0.0.0.0") == 0) {
+                            ip = "127.0.0.1";
+                        }
+                        String puerto = lector.readLine();
+                        servidor.nuevaInstancia(ip, Integer.parseInt(puerto));
+                        break;
+                    }
+                } else {
+                    System.out.println(mensaje);
                 }
             } while (!mensaje.equals("adios"));
             System.out.println("CLIENTE DESCONECTADO");
             socket.close();
-            lista.quitar(indice);
+            servidor.eliminar(indice);
         } catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();

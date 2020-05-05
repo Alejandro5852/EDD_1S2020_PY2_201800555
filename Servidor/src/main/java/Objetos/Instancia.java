@@ -71,20 +71,26 @@ public class Instancia implements Runnable {
             escriba.println(mensaje);
             String a = "";
             int contador = 0;
-            while (a.compareTo("FINAL") != 0) {
+            while (true) {
                 try {
                     a = lector.readLine();
                     System.out.println(a);
                 } catch (IOException ex) {
                     Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                switch (contador) {
-                    case 0:
-                        contador++;
-                        break;
-                    case 1:
-                        contador = 0;
-                        break;
+                if (a.compareTo("FINAL") != 0) {
+                    switch (contador) {
+                        case 0:
+                            System.out.println("IP: " + a);
+                            contador++;
+                            break;
+                        case 1:
+                            System.out.println("PUERTO: " + a);
+                            contador = 0;
+                            break;
+                    }
+                } else {
+                    break;
                 }
             }
         } else {

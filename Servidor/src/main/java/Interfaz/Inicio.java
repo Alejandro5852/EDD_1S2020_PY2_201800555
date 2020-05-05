@@ -306,6 +306,9 @@ public class Inicio extends javax.swing.JFrame {
                     if (instancia.estaConectado()) {
                         JOptionPane.showMessageDialog(this, "CONECTADO");
                     }
+                    instancia.mandar("DATOS");
+                    instancia.mandar(servidor.getIp());
+                    instancia.mandar(Integer.toString(puerto));
                     instancia.mandar("LISTA_IP");
                 }
             }
