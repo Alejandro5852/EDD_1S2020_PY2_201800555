@@ -66,6 +66,30 @@ public class DobleMenteEnlazada {
         return existe;
     }
 
+    public Object at(int indice) {
+        Object encontrado = null;
+        if (indice < tamaño) {
+            NodoL temp = cabeza;
+            for (int i = 0; i < indice; i++) {
+                temp = temp.getSiguiente();
+            }
+            encontrado = temp.getValor();
+        }
+        return encontrado;
+    }
+
+    public Object Ultimo() {
+        Object ultimo = null;
+        if (!estaVacio()) {
+            NodoL temp = cabeza;
+            for (int i = 0; i < tamaño; i++) {
+                temp = temp.getSiguiente();
+            }
+            ultimo = temp.getValor();
+        }
+        return ultimo;
+    }
+
     public NodoL getCabeza() {
         return cabeza;
     }
@@ -91,7 +115,7 @@ public class DobleMenteEnlazada {
             }
             String Data = "";
             for (int i = 0; i < temp.getDATA().Tamaño(); i++) {
-                Operacion op = (Operacion)temp.getDATA().at(i);
+                Operacion op = (Operacion) temp.getDATA().at(i);
                 Data += op.paraGraphviz();
             }
             Dot += "a" + contador + "[label = \"{INDEX|TIMESTAMP|DATA|NONCE|PREVIOUSHASH|HASH}|{"

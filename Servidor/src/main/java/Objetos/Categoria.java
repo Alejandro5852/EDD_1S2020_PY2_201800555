@@ -6,6 +6,7 @@
 package Objetos;
 
 import Estructuras.Arboles.Comparador;
+import Estructuras.Arboles.B.BTree;
 
 /**
  *
@@ -14,9 +15,15 @@ import Estructuras.Arboles.Comparador;
 public class Categoria implements Comparador {
 
     private String Nombre;
+    BTree<Integer, Libro> arbol;
+
+    public BTree<Integer, Libro> getArbol() {
+        return arbol;
+    }
 
     public Categoria(String Nombre) {
         this.Nombre = Nombre;
+        arbol = new BTree();
     }
 
     @Override
@@ -61,6 +68,10 @@ public class Categoria implements Comparador {
      */
     public void setNombre(String Nombre) {
         this.Nombre = Nombre;
+    }
+
+    public void insertarLibro(int ISBN, Libro libro) {
+        this.arbol.insert(ISBN, libro);
     }
 
 }

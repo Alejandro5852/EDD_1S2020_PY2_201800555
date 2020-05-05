@@ -5,7 +5,9 @@
  */
 package Objetos;
 
+import Estructuras.Arboles.AVL.ArbolAVL;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
+import Estructuras.TablaHash.TablaHash;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -24,12 +26,15 @@ public class Servidor implements Runnable {
     private SimpleMenteEnlazada clientes;
     private int puerto;
     private IntefazGrafica interfaz;
-
+    private ArbolAVL categorias;
+    private TablaHash usuarios;
     public Servidor(int puerto) {
         this.puerto = puerto;
         this.clientes = new SimpleMenteEnlazada();
         interfaz = new IntefazGrafica();
         interfaz.setVisible(true);
+        this.categorias = new ArbolAVL();
+        this.usuarios = new TablaHash();
     }
 
     @Override
@@ -45,8 +50,7 @@ public class Servidor implements Runnable {
                 actualizar();
                 cliente = servidor.accept();
                 clientes.insertar(cliente);
-                System.out.println("Nuevo cliente conectado");
-                new Cliente(cliente, clientes, (clientes.Tamaño() - 1)).start();
+                new Cliente(cliente, clientes, (clientes.Tamaño() - 1), categorias, usuarios).start();
                 actualizar();
             }
         } catch (IOException ex) {
@@ -66,5 +70,4 @@ public class Servidor implements Runnable {
             interfaz.texto(texto);
         }
     }
-
 }

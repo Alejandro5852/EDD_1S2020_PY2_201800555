@@ -26,8 +26,8 @@ public class InicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesion
      */
-    Cliente cli;
-
+    private Cliente cli = null;
+    
     public InicioSesion() {
         initComponents();
         this.addWindowListener(new WindowAdapter() {
@@ -36,9 +36,9 @@ public class InicioSesion extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
-
+        
     }
-
+    
     public void setCli(Cliente cli) {
         this.cli = cli;
     }
@@ -61,11 +61,11 @@ public class InicioSesion extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("INICIO");
+        setLocationByPlatform(true);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -97,21 +97,10 @@ public class InicioSesion extends javax.swing.JFrame {
         jButton1.setText("Iniciar Sesión");
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Carga Masiva:");
-
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("USUARIOS");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel5.setText("Carga de usuarios");
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
-
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("LIBROS");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                jLabel5MouseClicked(evt);
             }
         });
 
@@ -122,6 +111,9 @@ public class InicioSesion extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -131,24 +123,17 @@ public class InicioSesion extends javax.swing.JFrame {
                         .addGap(85, 85, 85)
                         .addComponent(jLabel3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
-                        .addComponent(jLabel1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton1)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,10 +153,7 @@ public class InicioSesion extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -193,45 +175,43 @@ public class InicioSesion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos.JSON", "JSON");
         JFileChooser chooser = new JFileChooser();
         chooser.setFileFilter(filtro);
         chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         chooser.showOpenDialog(this);
-        File usuarios = chooser.getSelectedFile();
-    }//GEN-LAST:event_jLabel6MouseClicked
-
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos.JSON", "JSON");
-        JFileChooser chooser = new JFileChooser();
-        chooser.setFileFilter(filtro);
-        chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        chooser.showOpenDialog(this);
-        File libros = chooser.getSelectedFile();
+        File users = chooser.getSelectedFile();
         try {
             JsonParser parser = new JsonParser();
-            Object objects = parser.parse(new FileReader(libros));
+            Object objects = parser.parse(new FileReader(users));
             JsonObject jsonObject = (JsonObject) objects;
-            JsonArray libs = (JsonArray) jsonObject.get("libros");
-            for (int i = 0; i < libs.size(); i++) {
-                JsonObject obj = (JsonObject) libs.get(i);
-                String idioma = obj.get("Idioma").toString().substring(1);
-                idioma = idioma.substring(0, (idioma.length() - 1));
-                String titulo = obj.get("Titulo").toString().substring(1);
-                titulo = titulo.substring(0, (titulo.length() - 1));
-                String editorial = obj.get("Editorial").toString().substring(1);
-                editorial = editorial.substring(0, (editorial.length() - 1));
-                String autor = obj.get("Autor").toString().substring(1);
-                autor = autor.substring(0, (autor.length() - 1));
-                String cat = obj.get("Categoria").toString().substring(1);
-                cat = cat.substring(0, (cat.length() - 1));;
+            JsonArray usuarios = (JsonArray) jsonObject.get("Usuarios");
+            for (int i = 0; i < usuarios.size(); i++) {
+                JsonObject obj = (JsonObject) usuarios.get(i);
+                String Carnet = obj.get("Carnet").toString();
+                String Nombre = obj.get("Nombre").toString().substring(1);
+                Nombre = Nombre.substring(0, (Nombre.length() - 1));
+                String Apellido = obj.get("Apellido").toString().substring(1);
+                Apellido = Apellido.substring(0, (Apellido.length() - 1));
+                String Carrera = obj.get("Carrera").toString().substring(1);
+                Carrera = Carrera.substring(0, (Carrera.length() - 1));
+                String Password = obj.get("Password").toString().substring(1);
+                Password = Password.substring(0, (Password.length() - 1));
+                this.cli.mandar("CREAR_USUARIO");
+                this.cli.mandar(Carnet);
+                this.cli.mandar(Nombre);
+                this.cli.mandar(Apellido);
+                this.cli.mandar(Carrera);
+                this.cli.mandar(Password);
             }
+            cli.mandar("GUARDAR");
         } catch (Exception e) {
             System.out.println("Error en la lectura del archivo de configuracion " + e);
-
+            
         }
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_jLabel5MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -241,8 +221,6 @@ public class InicioSesion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField2;

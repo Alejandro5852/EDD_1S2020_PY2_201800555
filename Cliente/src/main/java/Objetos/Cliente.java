@@ -67,7 +67,7 @@ public class Cliente implements Runnable {
             }
         } else {
             escriba.println(mensaje);
-            lector = new BufferedReader(new InputStreamReader(entrada));
+            /*
             String a;
             try {
                 a = lector.readLine();
@@ -75,6 +75,7 @@ public class Cliente implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
+             */
         }
     }
 }

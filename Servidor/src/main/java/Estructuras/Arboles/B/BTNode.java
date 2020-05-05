@@ -34,7 +34,7 @@ public class BTNode<K extends Comparable, V>
         Dot+=getName()+"[label = \"<P0>";
         for(int i = 0; i<mCurrentKeyNum;i++){
             BTKeyValue<String,Libro> clave = (BTKeyValue<String,Libro>) mKeys[i];
-            Dot+="|"+clave.mKey+"; ISBN:"+clave.mValue.getISBN()+"|<P"+(i+1)+">";
+            Dot+="|"+clave.mValue.getTitulo()+"; ISBN:"+clave.mValue.getISBN()+"|<P"+(i+1)+">";
         }
         Dot+="\"];\n";
         for(int i = 0; i<=mCurrentKeyNum;i++){
