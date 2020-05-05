@@ -113,6 +113,18 @@ public class Cliente extends Thread {
                         bloques.insertar(bloque);
                     }
                     bloques.dot();
+                } else if (mensaje.compareTo("LISTA_IP") == 0) {
+                    System.out.println("SOLICITUD DE LISTA IP");
+                    if (lista.Tamaño() == 1) {
+                        escriba.println("FINAL");
+                    } else {
+                        for (int i = 0; i < lista.Tamaño(); i++) {
+                            Socket sc = (Socket) lista.at(i);
+                            escriba.println(sc.getInetAddress().toString());
+                            escriba.println(Integer.toString(sc.getPort()));
+                        }
+                        escriba.println("FINAL");
+                    }
                 }
             } while (!mensaje.equals("adios"));
             System.out.println("CLIENTE DESCONECTADO");

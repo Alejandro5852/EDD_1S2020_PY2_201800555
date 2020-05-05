@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author alejandro
  */
-public class Cliente implements Runnable {
+public class Instancia implements Runnable {
 
     private String host;
     private int puerto;
@@ -29,7 +29,7 @@ public class Cliente implements Runnable {
     private PrintWriter escriba;
     private BufferedReader lector;
 
-    public Cliente(String host, int puerto) {
+    public Instancia(String host, int puerto) {
         this.host = host;
         this.puerto = puerto;
     }
@@ -39,7 +39,9 @@ public class Cliente implements Runnable {
         try {
             sc = new Socket(host, puerto);
             salida = sc.getOutputStream();
+            entrada = sc.getInputStream();
             escriba = new PrintWriter(salida, true);
+            lector = new BufferedReader(new InputStreamReader(entrada));
         } catch (IOException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,24 +60,35 @@ public class Cliente implements Runnable {
     }
 
     public void mandar(String mensaje) {
-        if (mensaje == "adios") {
+        if (mensaje.compareTo("adios") == 0) {
             escriba.println(mensaje);
             try {
                 sc.close();
             } catch (IOException ex) {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
+        } else if (mensaje.compareTo("LISTA_IP") == 0) {
+            escriba.println(mensaje);
+            String a = "";
+            int contador = 0;
+            while (a.compareTo("FINAL") != 0) {
+                try {
+                    a = lector.readLine();
+                    System.out.println(a);
+                } catch (IOException ex) {
+                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                switch (contador) {
+                    case 0:
+                        contador++;
+                        break;
+                    case 1:
+                        contador = 0;
+                        break;
+                }
+            }
         } else {
             escriba.println(mensaje);
-            /*
-            String a;
-            try {
-                a = lector.readLine();
-                System.out.println(a);
-            } catch (IOException ex) {
-                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
-             */
         }
     }
 }

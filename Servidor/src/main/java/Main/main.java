@@ -5,6 +5,7 @@
  */
 package Main;
 
+import Interfaz.Inicio;
 import Objetos.Servidor;
 
 /**
@@ -14,9 +15,8 @@ import Objetos.Servidor;
 public class main {
 
     public static void main(String[] args) {
-        Servidor servidor = new Servidor(30000);
-        Thread hilo = new Thread(servidor);
-        hilo.start();
+        Inicio inicio = new Inicio();
+        inicio.setVisible(true);
     }
 
 }

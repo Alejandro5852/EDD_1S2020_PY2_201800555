@@ -5,7 +5,6 @@
  */
 package Interfaz;
 
-import Objetos.Cliente;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -26,22 +25,17 @@ public class InicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesion
      */
-    private Cliente cli = null;
     
     public InicioSesion() {
         initComponents();
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                cli.mandar("adios");
                 System.exit(0);
             }
         });
         
     }
     
-    public void setCli(Cliente cli) {
-        this.cli = cli;
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -199,14 +193,7 @@ public class InicioSesion extends javax.swing.JFrame {
                 Carrera = Carrera.substring(0, (Carrera.length() - 1));
                 String Password = obj.get("Password").toString().substring(1);
                 Password = Password.substring(0, (Password.length() - 1));
-                this.cli.mandar("CREAR_USUARIO");
-                this.cli.mandar(Carnet);
-                this.cli.mandar(Nombre);
-                this.cli.mandar(Apellido);
-                this.cli.mandar(Carrera);
-                this.cli.mandar(Password);
             }
-            cli.mandar("GUARDAR");
         } catch (Exception e) {
             System.out.println("Error en la lectura del archivo de configuracion " + e);
             
