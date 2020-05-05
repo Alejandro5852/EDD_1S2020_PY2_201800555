@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author alejandro
  */
 public class Servidor implements Runnable {
-
+    
     private SimpleMenteEnlazada clientes;
     private SimpleMenteEnlazada instancias;
     private SimpleMenteEnlazada nodos;
@@ -29,7 +29,7 @@ public class Servidor implements Runnable {
     private ArbolAVL categorias;
     private TablaHash usuarios;
     private ServerSocket servidor = null;
-
+    
     public Servidor(int puerto) {
         this.puerto = puerto;
         this.clientes = new SimpleMenteEnlazada();
@@ -38,7 +38,7 @@ public class Servidor implements Runnable {
         this.instancias = new SimpleMenteEnlazada();
         this.nodos = new SimpleMenteEnlazada();
     }
-
+    
     @Override
     public void run() {
         Socket cliente = null;
@@ -49,7 +49,7 @@ public class Servidor implements Runnable {
             System.out.println("El servidor está encendido, este escucha en el puerto: " + puerto + " " + getIp());
             while (true) {
                 cliente = servidor.accept();
-                System.out.println("Cliente conectado");
+                System.out.println("Cliente conectado: IP: " + cliente.getInetAddress() + "::PUERTO: " + cliente.getPort());
                 clientes.insertar(cliente);
                 new Cliente(cliente, (clientes.Tamaño() - 1), categorias, usuarios, this).start();
             }
@@ -57,31 +57,33 @@ public class Servidor implements Runnable {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void nuevaInstancia(String ip, int puerto) {
         Instancia nueva = new Instancia(ip, puerto);
+        nueva.setServidor(this);
         Thread hiloNuevaInstancia = new Thread(nueva);
         hiloNuevaInstancia.run();
+        nueva.mandar("Cliente proveniente de la instancia con servidor de dirección IP: " + servidor.getInetAddress() + ", y puerto: "+ this.puerto);
         instancias.insertar(nueva);
         nodos.insertar(new NodoRed(ip, puerto));
         System.out.println("NUEVA INSTANCIA :" + ip + "::" + puerto);
     }
-
+    
     public String getIp() {
         return servidor.getInetAddress().toString();
     }
-
+    
     public void eliminar(int indice) {
         this.clientes.quitar(indice);
         this.instancias.quitar(indice);
     }
-
+    
     public SimpleMenteEnlazada getInstancias() {
         return this.instancias;
     }
-
+    
     public SimpleMenteEnlazada getNodos() {
         return this.nodos;
     }
-
+    
 }

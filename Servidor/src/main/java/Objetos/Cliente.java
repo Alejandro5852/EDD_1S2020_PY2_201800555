@@ -121,7 +121,7 @@ public class Cliente extends Thread {
                         for (int i = 0; i < (servidor.getNodos().Tamaño() - 1); i++) {
                             NodoRed nodo = (NodoRed) servidor.getNodos().at(i);
                             escriba.println(nodo.getDireccionIP());
-                            escriba.println(nodo.getPuerto());
+                            escriba.println(nodo.getPuerto()); 
                         }
                         escriba.println("FINAL");
                     }

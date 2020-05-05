@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,10 +29,15 @@ public class Instancia implements Runnable {
     private InputStream entrada;
     private PrintWriter escriba;
     private BufferedReader lector;
+    private Servidor servidor;
 
     public Instancia(String host, int puerto) {
         this.host = host;
         this.puerto = puerto;
+    }
+
+    public void setServidor(Servidor servidor) {
+        this.servidor = servidor;
     }
 
     @Override
@@ -68,6 +74,7 @@ public class Instancia implements Runnable {
                 Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (mensaje.compareTo("LISTA_IP") == 0) {
+            String ip = "";
             escriba.println(mensaje);
             String a = "";
             int contador = 0;
@@ -81,12 +88,16 @@ public class Instancia implements Runnable {
                 if (a.compareTo("FINAL") != 0) {
                     switch (contador) {
                         case 0:
+                            System.out.println("NODO DE RED: ");
                             System.out.println("IP: " + a);
+                            ip = a;
                             contador++;
                             break;
                         case 1:
                             System.out.println("PUERTO: " + a);
                             contador = 0;
+                            servidor.nuevaInstancia(ip, Integer.parseInt(a));
+                            ip = "";
                             break;
                     }
                 } else {

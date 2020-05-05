@@ -300,9 +300,8 @@ public class Inicio extends javax.swing.JFrame {
                 puertoInstancia = Integer.parseInt(jTextField3.getText());
                 IP = jTextField4.getText();
                 if (puertoInstancia != -1 && IP.compareTo("") != 0) {
-                    Instancia instancia = new Instancia(IP, puertoInstancia);
-                    Thread hiloInstancia = new Thread(instancia);
-                    hiloInstancia.run();
+                    servidor.nuevaInstancia(IP, puertoInstancia);
+                    Instancia instancia = (Instancia) servidor.getInstancias().Primero();
                     if (instancia.estaConectado()) {
                         JOptionPane.showMessageDialog(this, "CONECTADO");
                     }
@@ -310,6 +309,12 @@ public class Inicio extends javax.swing.JFrame {
                     instancia.mandar(servidor.getIp());
                     instancia.mandar(Integer.toString(puerto));
                     instancia.mandar("LISTA_IP");
+                    for (int i = 1; i < servidor.getInstancias().Tamaño(); i++) {
+                        Instancia temp = (Instancia) servidor.getInstancias().at(i);
+                        temp.mandar("DATOS");
+                        temp.mandar(servidor.getIp());
+                        temp.mandar(Integer.toString(puerto));
+                    }
                 }
             }
             this.setVisible(false);
