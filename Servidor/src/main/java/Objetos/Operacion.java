@@ -96,4 +96,44 @@ public class Operacion {
         }
         return salida;
     }
+
+    public String paraEnviar() {
+        String salida = "";
+        if (involucrado instanceof Libro) {
+            Libro lib = (Libro) involucrado;
+            if (tipo == Tipo.ELIMINAR_LIBRO) {
+                salida += "\"ELIMINAR_LIBRO\":{";
+                salida += "\"ISBN\":" + lib.getISBN() + ",";
+                salida += "\"TITULO\":\"" + lib.getTitulo() + "\",";
+                salida += "\"CATEGORIA\":\"" + lib.getCategoria() + "\"";
+                salida += "}";
+            } else {
+                salida += "\"CREAR_LIBRO\":{";
+                salida += "\"ISBN\":" + lib.getISBN() + ",";
+                salida += "\"AÑO\":" + lib.getAño() + ",";
+                salida += "\"IDIOMA\":\"" + lib.getIdioma() + "\",";
+                salida += "\"TITULO\":\"" + lib.getTitulo() + "\",";
+                salida += "\"EDITORIAL\":\"" + lib.getEditorial() + "\",";
+                salida += "\"AUTOR\":\"" + lib.getAutor() + "\",";
+                salida += "\"EDICION\":" + lib.getEdicion() + ",";
+                salida += "\"CATEGORIA\":\"" + lib.getCategoria() + "\"";
+                salida += "}";
+            }
+        } else if (involucrado instanceof Usuario) {
+            Usuario user = (Usuario) involucrado;
+            salida += "\"" + tipo.toString() + "\":{";
+            salida += "\"Carnet\":" + user.getCarnet() + ",";
+            salida += "\"Nombre\":\"" + user.getNombre() + "\",";
+            salida += "\"Apellido\":\"" + user.getApellido() + "\",";
+            salida += "\"Carrera\":\"" + user.getCarrera() + "\",";
+            salida += "\"Password\":\"" + user.getContraseña() + "\"";
+            salida += "}";
+        } else {
+            Categoria cat = (Categoria) involucrado;
+            salida += "\"" + tipo.toString() + "\":{";
+            salida += "\"Nombre\":\"" + cat.getNombre() + "\"";
+            salida += "}";
+        }
+        return salida;
+    }
 }

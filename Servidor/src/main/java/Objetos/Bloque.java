@@ -100,24 +100,50 @@ public class Bloque {
             Operacion op = (Operacion) this.DATA.at(i);
             objetoJSON += op.paraJSON();
             if (i < (this.DATA.Tamaño() - 1)) {
-                objetoJSON+=",\n";
-            }else{
-                objetoJSON+="\n";
+                objetoJSON += ",\n";
+            } else {
+                objetoJSON += "\n";
             }
         }
         objetoJSON += "\t\t}\n\t],\n";
         return objetoJSON;
     }
-    public String getJson(){
+
+    public String getJson() {
         String JSON = "{\n";
-        JSON+="\t\"INDEX\":"+getINDEX()+",\n";
-        JSON+="\t\"TIMESTAMP\":\""+getTIMESTAMP()+"\",\n";
-        JSON+="\t\"NONCE\":"+getNONCE()+",\n";
-        JSON+=getData();
-        JSON+="\t\"PREVIOUSHASH\":\""+getPREVIOUSHASH()+"\",\n";
-        JSON+="\t\"HASH\":\""+getHASH()+"\"\n}";
+        JSON += "\t\"INDEX\":" + getINDEX() + ",\n";
+        JSON += "\t\"TIMESTAMP\":\"" + getTIMESTAMP() + "\",\n";
+        JSON += "\t\"NONCE\":" + getNONCE() + ",\n";
+        JSON += getData();
+        JSON += "\t\"PREVIOUSHASH\":\"" + getPREVIOUSHASH() + "\",\n";
+        JSON += "\t\"HASH\":\"" + getHASH() + "\"\n}";
         return JSON;
     }
+
+    public String datos() {
+        String objetoJSON = "\"DATA\":{";
+        for (int i = 0; i < this.DATA.Tamaño(); i++) {
+            Operacion op = (Operacion) this.DATA.at(i);
+            objetoJSON += op.paraEnviar();
+            if (i < (this.DATA.Tamaño() - 1)) {
+                objetoJSON += ",";
+            } 
+        }
+        objetoJSON += "},";
+        return objetoJSON;
+    }
+
+    public String JSON() {
+        String JSON = "{";
+        JSON += "\"INDEX\":" + getINDEX() + ",";
+        JSON += "\"TIMESTAMP\":\"" + getTIMESTAMP() + "\",";
+        JSON += "\"NONCE\":" + getNONCE() + ",";
+        JSON += datos();
+        JSON += "\"PREVIOUSHASH\":\"" + getPREVIOUSHASH() + "\",";
+        JSON += "\"HASH\":\"" + getHASH() + "\"}";
+        return JSON;
+    }
+
     public String hash(String entrada) throws NoSuchAlgorithmException {
         String encriptado = "";
         int nonce = 0;

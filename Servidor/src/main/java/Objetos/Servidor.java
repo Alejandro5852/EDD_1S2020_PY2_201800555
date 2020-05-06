@@ -209,8 +209,9 @@ public class Servidor implements Runnable {
         for (int i = 0; i < instancias.Tamaño(); i++) {
             Instancia temp = (Instancia) instancias.at(i);
             temp.mandar("NUEVO_BLOQUE");
-            temp.mandar(bloque.getJson());
+            temp.mandar(bloque.JSON());
         }
+        System.out.println(bloque.JSON());
         System.out.println("¡Información esparcida por toda la red!");
     }
 
