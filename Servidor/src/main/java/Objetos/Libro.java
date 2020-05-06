@@ -21,6 +21,7 @@ public class Libro implements Comparador {
     private String Autor;
     private int Edicion;
     private String Categoria;
+    private int carnet;
 
     @Override
     public boolean igualQue(Object q) {
@@ -173,6 +174,15 @@ public class Libro implements Comparador {
         this.Autor = Autor;
         this.Edicion = Edicion;
         this.Categoria = Categoria;
+        this.carnet = 0;
+    }
+
+    public int getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(int carnet) {
+        this.carnet = carnet;
     }
 
     public Libro() {

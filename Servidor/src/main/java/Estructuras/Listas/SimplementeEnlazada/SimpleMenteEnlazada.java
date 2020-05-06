@@ -5,10 +5,9 @@
  */
 package Estructuras.Listas.SimplementeEnlazada;
 
-import Estructuras.Arboles.Comparador;
 import Estructuras.Listas.NodoL;
 import Objetos.Categoria;
-import Objetos.Libro;
+import Objetos.NodoRed;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,10 +20,21 @@ public class SimpleMenteEnlazada {
 
     private NodoL cabeza;
     private int tamaño;
+    private String carpeta;
 
     public SimpleMenteEnlazada() {
         cabeza = null;
         tamaño = 0;
+        this.carpeta = "";
+    }
+
+    public void vaciar() {
+        this.cabeza = null;
+        this.tamaño = 0;
+    }
+
+    public void setCarpeta(String carpeta) {
+        this.carpeta = carpeta;
     }
 
     public void insertar(Object dato) {
@@ -100,6 +110,9 @@ public class SimpleMenteEnlazada {
                 if (tipo == 0) {
                     Categoria cat = (Categoria) temp.getValor();
                     Dot += "a" + contador + "[label = \"" + cat.getNombre() + "\"];\n";
+                } else if (tipo == 1) {
+                    NodoRed nodo = (NodoRed) temp.getValor();
+                    Dot += "a" + contador + "[label = \"" + "IP: " + nodo.getDireccionIP() + " PUERTO: " + nodo.getPuerto() + "\"];\n";
                 }
                 contador++;
                 temp = temp.getSiguiente();
@@ -108,7 +121,7 @@ public class SimpleMenteEnlazada {
             FileWriter fichero = null;
             PrintWriter escritor;
             try {
-                fichero = new FileWriter("/home/alejandro/Escritorio/" + titulo + ".dot");
+                fichero = new FileWriter(carpeta + "/" + titulo + ".dot");
                 escritor = new PrintWriter(fichero);
                 escritor.print(Dot);
             } catch (IOException e) {
@@ -124,7 +137,7 @@ public class SimpleMenteEnlazada {
             }
             try {
                 Runtime rt = Runtime.getRuntime();
-                rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/" + titulo + ".jpg" + " /home/alejandro/Escritorio/" + titulo + ".dot");
+                rt.exec("dot -Tjpg -o " + carpeta + "/" + titulo + ".jpg" + " " + carpeta + "/" + titulo + ".dot");
                 Thread.sleep(500);
             } catch (IOException | InterruptedException ex) {
                 System.err.println("Error al generar la imagen para el archivo " + titulo + ".dot");

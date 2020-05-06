@@ -17,14 +17,18 @@ import java.io.PrintWriter;
  */
 public class DobleMenteEnlazada {
 
-    private String puerto;
     private NodoL cabeza;
     private int tamaño;
+    private String carpeta;
 
     public DobleMenteEnlazada() {
         this.cabeza = null;
         this.tamaño = 0;
-        this.puerto = "";
+        this.carpeta = "";
+    }
+
+    public void setCarpeta(String carpeta) {
+        this.carpeta = carpeta;
     }
 
     public void insertar(Object dato) {
@@ -44,10 +48,6 @@ public class DobleMenteEnlazada {
             this.cabeza.setAnterior(nuevo);
         }
         this.tamaño++;
-    }
-
-    public void setPuerto(String puerto) {
-        this.puerto = puerto;
     }
 
     public boolean existe(Object dato) {
@@ -104,7 +104,7 @@ public class DobleMenteEnlazada {
 
     public void dot() {
         String Dot = "digraph G{\nnode[fillcolor = skyblue, style = filled, shape = record];\n";
-        Dot += "label =  <<font point-size='20'>Lista doblemente enlazada BLOCKCHAIN del puerto: " + this.puerto + "</font>>;\nlabelloc = \"t \";\n";
+        Dot += "label =  <<font point-size='20'>Lista doblemente enlazada BLOCKCHAIN</font>>;\nlabelloc = \"t \";\n";
         NodoL aux = cabeza;
         int contador = 0;
         while (aux != null) {
@@ -118,9 +118,19 @@ public class DobleMenteEnlazada {
                 Operacion op = (Operacion) temp.getDATA().at(i);
                 Data += op.paraGraphviz();
             }
-            Dot += "a" + contador + "[label = \"{INDEX|TIMESTAMP|DATA|NONCE|PREVIOUSHASH|HASH}|{"
-                    + temp.getINDEX() + "|" + temp.getTIMESTAMP() + "|" + Data + "|" + temp.getNONCE()
-                    + "|" + temp.getPREVIOUSHASH() + "|" + temp.getHASH() + "}\"];\n";
+
+            Dot += "a" + contador + "[ label=<\n"
+                    + "\n"
+                    + "<table color='black' cellspacing='0'>\n"
+                    + "\t<tr><td>INDEX</td><td>" + temp.getINDEX() + "</td></tr>\n"
+                    + "\t<tr><td>TIMESTAMP</td><td>" + temp.getTIMESTAMP() + "</td></tr>\n"
+                    + "\t<tr><td>DATA</td><td>" + Data + "</td></tr>\n"
+                    + "\t<tr><td>NONCE</td><td>" + temp.getNONCE() + "</td></tr>\n"
+                    + "\t<tr><td>PREVIOUSHASH</td><td>" + temp.getPREVIOUSHASH() + "</td></tr>\n"
+                    + "\t<tr><td>HASH</td><td>" + temp.getHASH() + "</td></tr>\n"
+                    + "</table>\n"
+                    + "\n"
+                    + ">];";
             contador++;
             aux = aux.getSiguiente();
         }
@@ -128,26 +138,26 @@ public class DobleMenteEnlazada {
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
-            fichero = new FileWriter("/home/alejandro/Escritorio/BloquesPuerto_" + this.puerto + ".dot");
+            fichero = new FileWriter(carpeta + "/Bloques.dot");
             escritor = new PrintWriter(fichero);
             escritor.print(Dot);
         } catch (Exception e) {
-            System.err.println("Error al escribir el archivo BloquesPuerto_" + this.puerto + ".dot");
+            System.err.println("Error al escribir el archivo Bloques.dot");
         } finally {
             try {
                 if (null != fichero) {
                     fichero.close();
                 }
             } catch (Exception e2) {
-                System.err.println("Error al cerrar el archivo BloquesPuerto_" + this.puerto + ".dot");
+                System.err.println("Error al cerrar el archivo Bloques.dot");
             }
         }
         try {
             Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/BloquesPuerto_" + this.puerto + ".jpg" + " /home/alejandro/Escritorio/BloquesPuerto_" + this.puerto + ".dot");
+            rt.exec("dot -Tjpg -o " + carpeta + "/Bloques.jpg" + " " + carpeta + "/Bloques.dot");
             Thread.sleep(500);
         } catch (Exception ex) {
-            System.err.println("Error al generar la imagen para el archivo BloquesPuerto_" + this.puerto + ".dot");
+            System.err.println("Error al generar la imagen para el archivo Bloques.dot");
         }
     }
 }

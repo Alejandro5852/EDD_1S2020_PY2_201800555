@@ -9,6 +9,11 @@ public class BTree<K extends Comparable, V> {
     public final static int REBALANCE_FOR_LEAF_NODE = 1;
     public final static int REBALANCE_FOR_INTERNAL_NODE = 2;
     private String category = "";
+    private String carpeta = "";
+
+    public void setCarpeta(String carpeta) {
+        this.carpeta = carpeta;
+    }
 
     public void setCategory(String category) {
         this.category = category;
@@ -754,26 +759,26 @@ public class BTree<K extends Comparable, V> {
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
-            fichero = new FileWriter("/home/alejandro/Escritorio/ArbolB_"+ this.category +".dot");
+            fichero = new FileWriter(carpeta + "/ArbolB_" + this.category + ".dot");
             escritor = new PrintWriter(fichero);
             escritor.print(Dot);
         } catch (Exception e) {
-            System.err.println("Error al escribir el archivo ArbolB_"+ this.category +".dot");
+            System.err.println("Error al escribir el archivo ArbolB_" + this.category + ".dot");
         } finally {
             try {
                 if (null != fichero) {
                     fichero.close();
                 }
             } catch (Exception e2) {
-                System.err.println("Error al cerrar el archivo ArbolB_"+ this.category +".dot");
+                System.err.println("Error al cerrar el archivo ArbolB_" + this.category + ".dot");
             }
         }
         try {
             Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/ArbolB_"+ this.category +".jpg" + " /home/alejandro/Escritorio/ArbolB_"+ this.category +".dot");
+            rt.exec("dot -Tjpg -o " + carpeta + "/ArbolB_" + this.category + ".jpg" + " " + carpeta + "/ArbolB_" + this.category + ".dot");
             Thread.sleep(500);
         } catch (Exception ex) {
-            System.err.println("Error al generar la imagen para el archivo ArbolB_"+ this.category +".dot");
+            System.err.println("Error al generar la imagen para el archivo ArbolB_" + this.category + ".dot");
         }
     }
 }

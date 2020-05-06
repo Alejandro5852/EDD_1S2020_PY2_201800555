@@ -6,15 +6,10 @@
 package Objetos;
 
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
-import com.google.gson.JsonObject;
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -132,7 +127,6 @@ public class Bloque {
                 break;
             } else {
                 nonce++;
-                System.out.println("Vuelvo a encriptar: " + nonce);
                 encriptado = encriptar(encriptado + nonce);
             }
         }
@@ -151,7 +145,6 @@ public class Bloque {
             } else {
                 nonce++;
                 hora = new SimpleDateFormat("dd-MM-yyyy::HH:mm:ss").format(fecha.getTime());
-                System.out.println("Vuelvo a encriptar: " + nonce);
                 encriptado = encriptar(INDEX + hora + PREVIOUSHASH + getData() + nonce);
             }
         }

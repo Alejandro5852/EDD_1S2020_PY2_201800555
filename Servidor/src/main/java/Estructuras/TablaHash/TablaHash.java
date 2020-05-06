@@ -18,6 +18,7 @@ public class TablaHash {
     private Elemento[] elementos;
     private int M;
     private int contador;
+    String carpeta;
 
     public TablaHash() {
         this.M = 45;
@@ -26,6 +27,11 @@ public class TablaHash {
             this.elementos[i] = null;
         }
         this.contador = 0;
+        this.carpeta = "";
+    }
+
+    public void setCarpeta(String carpeta) {
+        this.carpeta = carpeta;
     }
 
     public void insertar(Usuario usuario) {
@@ -117,7 +123,7 @@ public class TablaHash {
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
-            fichero = new FileWriter("/home/alejandro/Escritorio/TablaHash.dot");
+            fichero = new FileWriter(carpeta + "/TablaHash.dot");
             escritor = new PrintWriter(fichero);
             escritor.print(Dot);
         } catch (Exception e) {
@@ -133,7 +139,7 @@ public class TablaHash {
         }
         try {
             Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/TablaHash.jpg" + " /home/alejandro/Escritorio/TablaHash.dot");
+            rt.exec("dot -Tjpg -o " + carpeta + "/TablaHash.jpg" + " " + carpeta + "/TablaHash.dot");
             Thread.sleep(500);
         } catch (Exception ex) {
             System.err.println("Error al generar la imagen para el archivo TablaHash.dot");

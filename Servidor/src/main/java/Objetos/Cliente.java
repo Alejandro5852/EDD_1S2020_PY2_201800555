@@ -17,8 +17,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +40,6 @@ public class Cliente extends Thread {
         this.bloques = new DobleMenteEnlazada();
         this.categorias = categorias;
         this.usuarios = usuarios;
-        this.bloques.setPuerto(Integer.toString(socket.getPort()));
         this.servidor = servidor;
     }
 
@@ -121,7 +118,7 @@ public class Cliente extends Thread {
                         for (int i = 0; i < (servidor.getNodos().Tamaño() - 1); i++) {
                             NodoRed nodo = (NodoRed) servidor.getNodos().at(i);
                             escriba.println(nodo.getDireccionIP());
-                            escriba.println(nodo.getPuerto()); 
+                            escriba.println(nodo.getPuerto());
                         }
                         escriba.println("FINAL");
                     }

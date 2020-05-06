@@ -5,6 +5,9 @@
  */
 package Interfaz;
 
+import Objetos.Operacion;
+import Objetos.Servidor;
+import Objetos.Usuario;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,7 +28,8 @@ public class InicioSesion extends javax.swing.JFrame {
     /**
      * Creates new form InicioSesion
      */
-    
+    private Servidor servidor = null;
+
     public InicioSesion() {
         initComponents();
         this.addWindowListener(new WindowAdapter() {
@@ -33,9 +37,12 @@ public class InicioSesion extends javax.swing.JFrame {
                 System.exit(0);
             }
         });
-        
+
     }
-    
+
+    public void setServidor(Servidor servidor) {
+        this.servidor = servidor;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -193,10 +200,13 @@ public class InicioSesion extends javax.swing.JFrame {
                 Carrera = Carrera.substring(0, (Carrera.length() - 1));
                 String Password = obj.get("Password").toString().substring(1);
                 Password = Password.substring(0, (Password.length() - 1));
+                Usuario nuevo = new Usuario(Nombre, Apellido, Carrera, Password, Integer.parseInt(Carnet));
+                servidor.nuevaOperacion(Operacion.Tipo.CREAR_USUARIO, nuevo);
             }
+            servidor.nuevoBloque();
         } catch (Exception e) {
             System.out.println("Error en la lectura del archivo de configuracion " + e);
-            
+
         }
     }//GEN-LAST:event_jLabel5MouseClicked
 

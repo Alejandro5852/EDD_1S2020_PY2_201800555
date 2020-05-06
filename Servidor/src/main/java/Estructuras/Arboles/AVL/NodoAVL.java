@@ -60,7 +60,7 @@ public class NodoAVL {
     public String dot() {
         String Dot = "";
         Categoria aux = (Categoria) this.dato;
-        Dot += "\"" + aux.getNombre() + "\" [label = \"<C0>|" + aux.getNombre() + "|<C1>\"]\n";
+        Dot += "\"" + aux.getNombre() + "\" [label = \"<C0>|" + aux.getNombre() + " " + aux.getArbol().size() + "|<C1>\"]\n";
         if (izdo != null) {
             Categoria temp = (Categoria) izdo.dato;
             Dot += izdo.dot() + "\"" + aux.getNombre() + "\" :C0->\"" + temp.getNombre() + "\";\n";

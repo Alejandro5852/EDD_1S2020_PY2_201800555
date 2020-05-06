@@ -8,6 +8,7 @@ package Estructuras.Arboles.AVL;
 import Estructuras.Arboles.Comparador;
 import Estructuras.Arboles.ABB.Logical;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
+import Objetos.Categoria;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
@@ -18,9 +19,15 @@ import java.io.PrintWriter;
 public class ArbolAVL {
 
     NodoAVL raiz;
+    private String carpeta;
 
     public ArbolAVL() {
         raiz = null;
+        this.carpeta = "";
+    }
+
+    public void setCarpeta(String carpeta) {
+        this.carpeta = carpeta;
     }
 
     public NodoAVL raizArbol() {
@@ -285,7 +292,7 @@ public class ArbolAVL {
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
-            fichero = new FileWriter("/home/alejandro/Escritorio/AVL.dot");
+            fichero = new FileWriter(carpeta + "/AVL.dot");
             escritor = new PrintWriter(fichero);
             escritor.print(Dot);
         } catch (Exception e) {
@@ -301,11 +308,14 @@ public class ArbolAVL {
         }
         try {
             Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + "/home/alejandro/Escritorio/AVL.jpg" + " /home/alejandro/Escritorio/AVL.dot");
+            rt.exec("dot -Tjpg -o " + carpeta + "/AVL.jpg" + " " + carpeta + "/AVL.dot");
             Thread.sleep(500);
         } catch (Exception ex) {
             System.err.println("Error al generar la imagen para el archivo AVL.dot");
         }
+        dotPreOrder();
+        dotInOrder();
+        dotPosOrder();
     }
 
     public void dotPreOrder() {
@@ -371,5 +381,29 @@ public class ArbolAVL {
             }
         }
         return encontrado;
+    }
+
+    public Categoria get(String Nombre) {
+        boolean encontrado = false;
+        Categoria encontrada = null;
+        if (raiz != null) {
+            NodoAVL raizSub = raiz;
+            while (encontrado == false && raizSub != null) {
+                Categoria temp = (Categoria) raizSub.valorNodo();
+                if (temp.getNombre().compareTo(Nombre) == 0) {
+                    encontrado = true;
+                    encontrada = temp;
+                } else if (temp.getNombre().compareTo(Nombre) < 0) {
+                    raizSub = raizSub.subarbolIzdo();
+                } else {
+                    raizSub = raizSub.subarbolDcho();
+                }
+            }
+        }
+        return encontrada;
+    }
+
+    public boolean estaVacio() {
+        return raiz == null;
     }
 }

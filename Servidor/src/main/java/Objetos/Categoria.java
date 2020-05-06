@@ -15,6 +15,7 @@ import Estructuras.Arboles.B.BTree;
 public class Categoria implements Comparador {
 
     private String Nombre;
+    private String carpeta;
     BTree<Integer, Libro> arbol;
 
     public BTree<Integer, Libro> getArbol() {
@@ -24,6 +25,12 @@ public class Categoria implements Comparador {
     public Categoria(String Nombre) {
         this.Nombre = Nombre;
         arbol = new BTree();
+        this.carpeta = "";
+    }
+
+    public void setCarpeta(String carpeta) {
+        this.carpeta = carpeta;
+        this.arbol.setCarpeta(carpeta);
     }
 
     @Override
@@ -72,6 +79,12 @@ public class Categoria implements Comparador {
 
     public void insertarLibro(int ISBN, Libro libro) {
         this.arbol.insert(ISBN, libro);
+        this.arbol.dot();
+    }
+
+    public void eliminarLibro(int ISBN) {
+        this.arbol.delete(ISBN);
+        this.arbol.dot();
     }
 
 }
