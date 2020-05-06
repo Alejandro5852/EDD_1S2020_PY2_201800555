@@ -29,14 +29,15 @@ public class Servidor implements Runnable {
     private ArbolAVL categorias;
     private TablaHash usuarios;
     private ServerSocket servidor = null;
-    
-    public Servidor(int puerto) {
+    private String IP;
+    public Servidor(int puerto, String IP) {
         this.puerto = puerto;
         this.clientes = new SimpleMenteEnlazada();
         this.categorias = new ArbolAVL();
         this.usuarios = new TablaHash();
         this.instancias = new SimpleMenteEnlazada();
         this.nodos = new SimpleMenteEnlazada();
+        this.IP = IP;
     }
     
     @Override
@@ -70,7 +71,7 @@ public class Servidor implements Runnable {
     }
     
     public String getIp() {
-        return servidor.getInetAddress().getHostAddress().toString();
+        return this.IP;
     }
     
     public void eliminar(int indice) {
