@@ -138,6 +138,7 @@ public class Bloque {
         int nonce = 0;
         Calendar fecha = Calendar.getInstance();
         String hora = new SimpleDateFormat("dd-MM-yyyy::HH:mm:ss").format(fecha.getTime());
+        System.out.println("Encriptando...");
         String encriptado = encriptar(INDEX + hora + PREVIOUSHASH + getData() + nonce);
         while (true) {
             if (encriptado.charAt(0) == '0' && encriptado.charAt(1) == '0' && encriptado.charAt(2) == '0' && encriptado.charAt(3) == '0') {
@@ -148,8 +149,18 @@ public class Bloque {
                 encriptado = encriptar(INDEX + hora + PREVIOUSHASH + getData() + nonce);
             }
         }
+        System.out.println("¡Bloque encriptado!");
         this.setHASH(encriptado);
         this.setNONCE(nonce);
         this.setTIMESTAMP(hora);
+    }
+
+    public Bloque(int INDEX, int NONCE, String TIMESTAMP, SimpleMenteEnlazada DATA, String PREVIOUSHASH, String HASH) {
+        this.INDEX = INDEX;
+        this.NONCE = NONCE;
+        this.TIMESTAMP = TIMESTAMP;
+        this.DATA = DATA;
+        this.PREVIOUSHASH = PREVIOUSHASH;
+        this.HASH = HASH;
     }
 }

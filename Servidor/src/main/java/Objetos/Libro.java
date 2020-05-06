@@ -188,4 +188,10 @@ public class Libro implements Comparador {
     public Libro() {
     }
 
+    public Libro(int ISBN, String Titulo, String Categoria) {
+        this.ISBN = ISBN;
+        this.Titulo = Titulo;
+        this.Categoria = Categoria;
+    }
+
 }

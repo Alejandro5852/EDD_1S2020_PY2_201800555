@@ -137,7 +137,8 @@ public class SimpleMenteEnlazada {
             }
             try {
                 Runtime rt = Runtime.getRuntime();
-                rt.exec("dot -Tjpg -o " + carpeta + "/" + titulo + ".jpg" + " " + carpeta + "/" + titulo + ".dot");
+                String comando = "dot -Tjpg -o " + carpeta + "/" + titulo + ".jpg" + " " + carpeta + "/" + titulo + ".dot";
+                rt.exec(comando);
                 Thread.sleep(500);
             } catch (IOException | InterruptedException ex) {
                 System.err.println("Error al generar la imagen para el archivo " + titulo + ".dot");

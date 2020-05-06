@@ -5,10 +5,11 @@
  */
 package Objetos;
 
-import Estructuras.Arboles.AVL.ArbolAVL;
-import Estructuras.Listas.DoblementeEnlazada.DobleMenteEnlazada;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
-import Estructuras.TablaHash.TablaHash;
+;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,30 +17,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author alejandro
  */
+
+
 public class Cliente extends Thread {
 
     private Socket socket;
     int indice;
-    private DobleMenteEnlazada bloques;
-    private ArbolAVL categorias;
-    private TablaHash usuarios;
-    private SimpleMenteEnlazada DATA = null;
     private Servidor servidor;
 
-    public Cliente(Socket socket, int indice, ArbolAVL categorias, TablaHash usuarios, Servidor servidor) {
+    public Cliente(Socket socket, int indice, Servidor servidor) {
         this.socket = socket;
         this.indice = indice;
-        this.bloques = new DobleMenteEnlazada();
-        this.categorias = categorias;
-        this.usuarios = usuarios;
         this.servidor = servidor;
     }
 
@@ -52,65 +45,7 @@ public class Cliente extends Thread {
             String mensaje;
             do {
                 mensaje = lector.readLine();
-                if (mensaje.compareTo("CREAR_USUARIO") == 0) {
-                    System.out.println("Operacion: CREAR_USUARIO");
-                    String atributo;
-                    int Carnet = 0;
-                    String Nombre = null;
-                    String Apellido = null;
-                    String Carrera = null;
-                    String Password = null;
-                    int contador = 0;
-                    while (contador < 5) {
-                        atributo = lector.readLine();
-                        switch (contador) {
-                            case 0:
-                                Carnet = Integer.parseInt(atributo);
-                                contador++;
-                                break;
-                            case 1:
-                                Nombre = atributo;
-                                contador++;
-                                break;
-                            case 2:
-                                Apellido = atributo;
-                                contador++;
-                                break;
-                            case 3:
-                                Carrera = atributo;
-                                contador++;
-                                break;
-                            case 4:
-                                Password = atributo;
-                                contador++;
-                                break;
-                        }
-                    }
-                    Usuario nuevo = new Usuario(Nombre, Apellido, Carrera, Password, Carnet);
-                    escriba.println("Usuario creado exitosamente");
-                    this.usuarios.insertar(nuevo);
-                    Operacion operacion = new Operacion(Operacion.Tipo.CREAR_USUARIO, nuevo);
-                    if (DATA == null) {
-                        DATA = new SimpleMenteEnlazada();
-                        DATA.insertar(operacion);
-                    } else {
-                        DATA.insertar(operacion);
-                    }
-                } else if (mensaje.compareTo("GUARDAR") == 0) {
-                    System.out.println("GUARDAR CAMBIOS");
-                    if (bloques.estaVacio()) {
-                        Bloque bloque = new Bloque(0, DATA, "0000");
-                        System.out.println(bloque.getJson());
-                        DATA = null;
-                        bloques.insertar(bloque);
-                    } else {
-                        Bloque ultimo = (Bloque) bloques.Ultimo();
-                        Bloque bloque = new Bloque((bloques.getTamaño() - 1), DATA, ultimo.getHASH());
-                        DATA = null;
-                        bloques.insertar(bloque);
-                    }
-                    bloques.dot();
-                } else if (mensaje.compareTo("LISTA_IP") == 0) {
+                if (mensaje.compareTo("LISTA_IP") == 0) {
                     System.out.println("SOLICITUD DE LISTA IP");
                     if (servidor.getNodos().Tamaño() == 1) {
                         escriba.println("FINAL");
@@ -132,6 +67,11 @@ public class Cliente extends Thread {
                         servidor.nuevaInstancia(ip, Integer.parseInt(puerto));
                         break;
                     }
+                } else if (mensaje.compareTo("NUEVO_BLOQUE") == 0) {
+                    String jsonBloque = lector.readLine();
+                    JsonObject data = new Gson().fromJson(jsonBloque, JsonObject.class);
+                    Bloque nuevo = leerJson(data);
+                    System.out.println(nuevo.getJson());
                 } else {
                     System.out.println(mensaje);
                 }
@@ -142,8 +82,83 @@ public class Cliente extends Thread {
         } catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
             ex.printStackTrace();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private Bloque leerJson(JsonObject objetoJson) {
+        int INDEX = Integer.parseInt(objetoJson.get("INDEX").toString());
+        String TIMESTAMP = objetoJson.get("TIMESTAMP").toString().substring(1);
+        TIMESTAMP = TIMESTAMP.substring(0, (TIMESTAMP.length() - 1));
+        int NONCE = Integer.parseInt(objetoJson.get("NONCE").toString());
+        SimpleMenteEnlazada DATA = new SimpleMenteEnlazada();
+        JsonArray data = (JsonArray) objetoJson.get("DATA");
+        for (int i = 0; i < data.size(); i++) {
+            JsonObject obj = (JsonObject) data.get(i);
+            if (data.get(i).toString().compareTo("CREAR_USUARIO") == 0) {
+                String Carnet = obj.get("Carnet").toString();
+                String Nombre = obj.get("Nombre").toString().substring(1);
+                Nombre = Nombre.substring(0, (Nombre.length() - 1));
+                String Apellido = obj.get("Apellido").toString().substring(1);
+                Apellido = Apellido.substring(0, (Apellido.length() - 1));
+                String Carrera = obj.get("Carrera").toString().substring(1);
+                Carrera = Carrera.substring(0, (Carrera.length() - 1));
+                String Password = obj.get("Password").toString().substring(1);
+                Password = Password.substring(0, (Password.length() - 1));
+                Usuario nuevo = new Usuario(Nombre, Apellido, Carrera, Password, Integer.parseInt(Carnet));
+                DATA.insertar(new Operacion(Operacion.Tipo.CREAR_USUARIO, nuevo));
+            } else if (data.get(i).toString().compareTo("EDITAR_USUARIO") == 0) {
+                String Carnet = obj.get("Carnet").toString();
+                String Nombre = obj.get("Nombre").toString().substring(1);
+                Nombre = Nombre.substring(0, (Nombre.length() - 1));
+                String Apellido = obj.get("Apellido").toString().substring(1);
+                Apellido = Apellido.substring(0, (Apellido.length() - 1));
+                String Carrera = obj.get("Carrera").toString().substring(1);
+                Carrera = Carrera.substring(0, (Carrera.length() - 1));
+                String Password = obj.get("Password").toString().substring(1);
+                Password = Password.substring(0, (Password.length() - 1));
+                Usuario auxiliar = new Usuario(Nombre, Apellido, Carrera, Password, Integer.parseInt(Carnet));
+                DATA.insertar(new Operacion(Operacion.Tipo.EDITAR_USUARIO, auxiliar));
+            } else if (data.get(i).toString().compareTo("ELIMINAR_LIBRO") == 0) {
+                String ISBN = obj.get("ISBN").toString();
+                String Titulo = obj.get("TITULO").toString().substring(1);
+                Titulo = Titulo.substring(0, (Titulo.length() - 1));
+                String Categoria = obj.get("CATEGORIA").toString().substring(1);
+                Categoria = Categoria.substring(0, (Categoria.length() - 1));
+                Libro temp = new Libro(Integer.parseInt(ISBN), Titulo, Categoria);
+                DATA.insertar(new Operacion(Operacion.Tipo.ELIMINAR_LIBRO, temp));
+            } else if (data.get(i).toString().compareTo("CREAR_LIBRO") == 0) {
+                String ISBN = obj.get("ISBN").toString();
+                String Año = obj.get("AÑO").toString();
+                String Idioma = obj.get("IDIOMA").toString().substring(1);
+                Idioma = Idioma.substring(0, (Idioma.length() - 1));
+                String Titulo = obj.get("TITULO").toString().substring(1);
+                Titulo = Titulo.substring(0, (Titulo.length() - 1));
+                String Editorial = obj.get("EDITORIAL").toString().substring(1);
+                Editorial = Editorial.substring(0, (Editorial.length() - 1));
+                String Autor = obj.get("AUTOR").toString().substring(1);
+                Autor = Autor.substring(0, (Autor.length() - 1));
+                String Edicion = obj.get("EDICION").toString();
+                String Categoria = obj.get("CATEGORIA").toString().substring(1);
+                Categoria = Categoria.substring(0, (Categoria.length() - 1));
+                Libro nuevo = new Libro(Integer.parseInt(ISBN), Integer.parseInt(Año), Idioma, Titulo, Editorial, Autor, Integer.parseInt(Edicion), Categoria);
+                DATA.insertar(new Operacion(Operacion.Tipo.CREAR_LIBRO, nuevo));
+            } else if (data.get(i).toString().compareTo("CREAR_CATEGORIA") == 0) {
+                String Nombre = obj.get("Nombre").toString().substring(1);
+                Nombre = Nombre.substring(0, (Nombre.length() - 1));
+                Categoria nueva = new Categoria(Nombre);
+                DATA.insertar(new Operacion(Operacion.Tipo.CREAR_CATEGORIA, nueva));
+            } else if (data.get(i).toString().compareTo("ELIMINAR_CATEGORIA") == 0) {
+                String Nombre = obj.get("Nombre").toString().substring(1);
+                Nombre = Nombre.substring(0, (Nombre.length() - 1));
+                Categoria temp = new Categoria(Nombre);
+                DATA.insertar(new Operacion(Operacion.Tipo.ELIMINAR_CATEGORIA, temp));
+            }
+        }
+        String PREVIOUSHASH = objetoJson.get("PREVIOUSHASH").toString().substring(1);
+        PREVIOUSHASH = PREVIOUSHASH.substring(0, (PREVIOUSHASH.length() - 1));
+        String HASH = objetoJson.get("HASH").toString().substring(1);
+        HASH = HASH.substring(0, (HASH.length() - 1));
+        Bloque bloque = new Bloque(INDEX, NONCE, TIMESTAMP, DATA, PREVIOUSHASH, HASH);
+        return bloque;
     }
 }

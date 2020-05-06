@@ -13,7 +13,9 @@ import Estructuras.TablaHash.Elemento;
 import Estructuras.TablaHash.TablaHash;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
@@ -68,12 +70,15 @@ public class Servidor implements Runnable {
         DataOutputStream out;
         try {
             servidor = new ServerSocket(puerto);
-            System.out.println("El servidor está encendido, este escucha en el puerto: " + puerto + " " + getIp());
+            System.out.println("El servidor está encendido");
+            System.out.println("Información del servidor:");
+            System.out.println("Dirección IP: " + getIp());
+            System.out.println("Puerto: " + puerto);
             while (true) {
                 cliente = servidor.accept();
                 System.out.println("Cliente conectado: IP: " + cliente.getInetAddress() + "::PUERTO: " + cliente.getPort());
                 clientes.insertar(cliente);
-                new Cliente(cliente, (clientes.Tamaño() - 1), categorias, usuarios, this).start();
+                new Cliente(cliente, (clientes.Tamaño() - 1), this).start();
             }
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,7 +93,7 @@ public class Servidor implements Runnable {
         nueva.mandar("Cliente proveniente de la instancia con servidor de direccion IP: " + this.IP + ", y puerto: " + this.puerto);
         instancias.insertar(nueva);
         nodos.insertar(new NodoRed(ip, puerto));
-        nodos.dot(1, "NODOS EN RED");
+        nodos.dot(1, "NODOS_EN_RED");
         System.out.println("NUEVA INSTANCIA :" + ip + "::" + puerto);
     }
 
@@ -100,7 +105,7 @@ public class Servidor implements Runnable {
         this.clientes.quitar(indice);
         this.instancias.quitar(indice);
         this.nodos.quitar(indice);
-        this.nodos.dot(1, "NODOS EN RED");
+        this.nodos.dot(1, "NODOS_EN_RED");
     }
 
     public SimpleMenteEnlazada getInstancias() {
@@ -113,23 +118,28 @@ public class Servidor implements Runnable {
 
     public void nuevoBloque() {
         if (!DATA.estaVacio()) {
+            Bloque nuevo = null;
             if (bloques.estaVacio()) {
                 try {
-                    bloques.insertar(new Bloque(0, DATA, "0000"));
+                    nuevo = new Bloque(0, DATA, "0000");
+                    bloques.insertar(nuevo);
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 Bloque ultimo = (Bloque) bloques.Ultimo();
                 try {
-                    bloques.insertar(new Bloque(bloques.getTamaño(), DATA, ultimo.getHASH()));
+                    nuevo = new Bloque(bloques.getTamaño(), DATA, ultimo.getHASH());
+                    bloques.insertar(nuevo);
                 } catch (NoSuchAlgorithmException ex) {
                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             bloques.dot();
             accionar(DATA);
-            DATA.vaciar();
+            this.DATA = new SimpleMenteEnlazada();
+            almacenarJSON(nuevo);
+            sincronizar(nuevo);
         }
     }
 
@@ -164,7 +174,7 @@ public class Servidor implements Runnable {
                     categorias.dot();
                 }
             } else if (actual.getTipo().compareTo("EDITAR_USUARIO") == 0) {
-                Usuario a_cambiar = (Usuario) actual.getInvolucrado2();
+                Usuario a_cambiar = (Usuario) actual.getInvolucrado();
                 Elemento buscado = usuarios.buscar(a_cambiar.getCarnet());
                 buscado.setUsuario((Usuario) actual.getInvolucrado());
                 usuarios.dot();
@@ -195,15 +205,45 @@ public class Servidor implements Runnable {
     }
 
     public void sincronizar(Bloque bloque) {
+        System.out.println("Mandando información a la red...");
         for (int i = 0; i < instancias.Tamaño(); i++) {
             Instancia temp = (Instancia) instancias.at(i);
             temp.mandar("NUEVO_BLOQUE");
             temp.mandar(bloque.getJson());
         }
+        System.out.println("¡Información esparcida por toda la red!");
     }
 
     public void nuevaOperacion(Operacion.Tipo tipo, Object involucrado) {
         this.DATA.insertar(new Operacion(tipo, involucrado));
+    }
+
+    public void desconectar() {
+        for (int i = 0; i < instancias.Tamaño(); i++) {
+            Instancia temp = (Instancia) instancias.at(i);
+            temp.mandar("adios");
+        }
+    }
+
+    public void almacenarJSON(Bloque bloque) {
+        String ruta = carpeta + "/Bloque#" + bloque.getINDEX() + ".json";
+        FileWriter fichero = null;
+        PrintWriter escritor;
+        try {
+            fichero = new FileWriter(ruta);
+            escritor = new PrintWriter(fichero);
+            escritor.print(bloque.getJson());
+        } catch (IOException e) {
+            System.err.println("Error al escribir el archivo " + "Bloque#" + bloque.getINDEX() + ".json");
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (IOException e2) {
+                System.err.println("Error al cerrar el archivo " + "Bloque#" + bloque.getINDEX() + ".json");
+            }
+        }
     }
 
 }

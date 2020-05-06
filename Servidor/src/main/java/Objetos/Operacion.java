@@ -21,7 +21,6 @@ public class Operacion {
     }
     private Tipo tipo;
     private Object involucrado;
-    private Object involucrado2;
 
     public Operacion(Tipo tipo, Object involucrado) {
         this.tipo = tipo;
@@ -34,10 +33,6 @@ public class Operacion {
 
     public Object getInvolucrado() {
         return involucrado;
-    }
-
-    public Object getInvolucrado2() {
-        return involucrado2;
     }
 
     public String paraGraphviz() {

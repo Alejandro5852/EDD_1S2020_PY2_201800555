@@ -34,6 +34,7 @@ public class InicioSesion extends javax.swing.JFrame {
         initComponents();
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
+                servidor.desconectar();
                 System.exit(0);
             }
         });
