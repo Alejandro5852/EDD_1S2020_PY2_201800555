@@ -79,15 +79,7 @@ public class DobleMenteEnlazada {
     }
 
     public Object Ultimo() {
-        Object ultimo = null;
-        if (!estaVacio()) {
-            NodoL temp = cabeza;
-            for (int i = 0; i < tamaño; i++) {
-                temp = temp.getSiguiente();
-            }
-            ultimo = temp.getValor();
-        }
-        return ultimo;
+        return this.at(tamaño - 1);
     }
 
     public NodoL getCabeza() {

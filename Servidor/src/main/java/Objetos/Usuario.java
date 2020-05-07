@@ -61,7 +61,7 @@ public class Usuario {
         this.carnet = carnet;
     }
 
-    protected String encriptar(String contraseña) {
+    public String encriptar(String contraseña) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(contraseña.getBytes());

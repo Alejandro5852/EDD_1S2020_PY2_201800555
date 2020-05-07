@@ -78,6 +78,13 @@ public class Cliente extends Thread {
                     servidor.accionar(nuevo.getDATA());
                     servidor.guardarBloque(nuevo);
                     servidor.almacenarJSON(nuevo);
+                } else if (mensaje.compareTo("BLOQUES") == 0) {
+                    Instancia instancia = (Instancia) servidor.getInstancias().at(indice);
+                    for (int i = 0; i < servidor.getBloques().getTamaño(); i++) {
+                        Bloque temp = (Bloque) servidor.getBloques().at(i);
+                        instancia.mandar("NUEVO_BLOQUE");
+                        instancia.mandar(temp.JSON());
+                    }
                 } else {
                     System.out.println(mensaje);
                 }

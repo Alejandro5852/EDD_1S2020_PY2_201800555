@@ -8,14 +8,8 @@ package Interfaz;
 import Objetos.Instancia;
 import Objetos.Servidor;
 import java.io.File;
-import java.net.Inet6Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.util.Enumeration;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -39,6 +33,7 @@ public class Inicio extends javax.swing.JFrame {
         jTextField4.setVisible(false);
         jLabel7.setVisible(false);
         jLabel8.setVisible(false);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -196,13 +191,12 @@ public class Inicio extends javax.swing.JFrame {
                                                 .addGap(39, 39, 39)
                                                 .addComponent(jLabel7))))
                                     .addComponent(jButton1))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(18, 18, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel8)
                                 .addGap(41, 41, 41))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -257,7 +251,7 @@ public class Inicio extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jCheckBox1)
                         .addGap(9, 9, 9)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(15, 15, 15))
         );
@@ -337,6 +331,7 @@ public class Inicio extends javax.swing.JFrame {
                     instancia.mandar(servidor.getIp());
                     instancia.mandar(Integer.toString(puerto));
                     instancia.mandar("LISTA_IP");
+                    instancia.mandar("BLOQUES");
                     for (int i = 1; i < servidor.getInstancias().Tamaño(); i++) {
                         Instancia temp = (Instancia) servidor.getInstancias().at(i);
                         temp.mandar("DATOS");

@@ -147,8 +147,11 @@ public class Servidor implements Runnable {
         for (int i = 0; i < DATA.Tamaño(); i++) {
             Operacion actual = (Operacion) DATA.at(i);
             if (actual.getTipo().compareTo("CREAR_USUARIO") == 0) {
-                usuarios.insertar((Usuario) actual.getInvolucrado());
-                usuarios.dot();
+                Usuario nuevo = (Usuario) actual.getInvolucrado();
+                if (!usuarioExistente(nuevo.getCarnet())) {
+                    usuarios.insertar(nuevo);
+                    usuarios.dot();
+                }
             } else if (actual.getTipo().compareTo("CREAR_LIBRO") == 0) {
                 Libro lib = (Libro) actual.getInvolucrado();
                 if (categorias.estaVacio()) {
@@ -246,10 +249,22 @@ public class Servidor implements Runnable {
             }
         }
     }
-    
-    public void guardarBloque(Bloque bloque){
+
+    public void guardarBloque(Bloque bloque) {
         bloques.insertar(bloque);
         bloques.dot();
     }
 
+    public boolean usuarioExistente(int Carnet) {
+        return usuarios.buscar(Carnet) != null;
+    }
+
+    public boolean inicioSesion(int Carnet, String pass) {
+        Elemento temp = usuarios.buscar(Carnet);
+        return temp.getUsuario().getContraseña().compareTo(temp.getUsuario().encriptar(pass)) == 0 && temp.getUsuario().getCarnet() == Carnet;
+    }
+    
+    public DobleMenteEnlazada getBloques(){
+        return bloques;
+    }
 }
