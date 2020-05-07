@@ -10,6 +10,7 @@ import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,10 +69,15 @@ public class Cliente extends Thread {
                         break;
                     }
                 } else if (mensaje.compareTo("NUEVO_BLOQUE") == 0) {
+                    System.out.println("JSON entrante");
                     String jsonBloque = lector.readLine();
-                    JsonObject data = new Gson().fromJson(jsonBloque, JsonObject.class);
+                    JsonParser parser = new JsonParser();
+                    JsonObject data = parser.parse(jsonBloque).getAsJsonObject();
                     Bloque nuevo = leerJson(data);
-                    System.out.println(nuevo.getJson());
+                    System.out.println("¡JSON convertido a bloque!");
+                    servidor.accionar(nuevo.getDATA());
+                    servidor.guardarBloque(nuevo);
+                    servidor.almacenarJSON(nuevo);
                 } else {
                     System.out.println(mensaje);
                 }
@@ -94,7 +100,7 @@ public class Cliente extends Thread {
         JsonArray data = (JsonArray) objetoJson.get("DATA");
         for (int i = 0; i < data.size(); i++) {
             JsonObject obj = (JsonObject) data.get(i);
-            if (data.get(i).toString().compareTo("CREAR_USUARIO") == 0) {
+            if (obj.get("TIPO").toString().compareTo("\"CREAR_USUARIO\"") == 0) {
                 String Carnet = obj.get("Carnet").toString();
                 String Nombre = obj.get("Nombre").toString().substring(1);
                 Nombre = Nombre.substring(0, (Nombre.length() - 1));
@@ -106,7 +112,7 @@ public class Cliente extends Thread {
                 Password = Password.substring(0, (Password.length() - 1));
                 Usuario nuevo = new Usuario(Nombre, Apellido, Carrera, Password, Integer.parseInt(Carnet));
                 DATA.insertar(new Operacion(Operacion.Tipo.CREAR_USUARIO, nuevo));
-            } else if (data.get(i).toString().compareTo("EDITAR_USUARIO") == 0) {
+            } else if (obj.get("TIPO").toString().compareTo("\"EDITAR_USUARIO\"") == 0) {
                 String Carnet = obj.get("Carnet").toString();
                 String Nombre = obj.get("Nombre").toString().substring(1);
                 Nombre = Nombre.substring(0, (Nombre.length() - 1));
@@ -118,7 +124,7 @@ public class Cliente extends Thread {
                 Password = Password.substring(0, (Password.length() - 1));
                 Usuario auxiliar = new Usuario(Nombre, Apellido, Carrera, Password, Integer.parseInt(Carnet));
                 DATA.insertar(new Operacion(Operacion.Tipo.EDITAR_USUARIO, auxiliar));
-            } else if (data.get(i).toString().compareTo("ELIMINAR_LIBRO") == 0) {
+            } else if (obj.get("TIPO").toString().compareTo("\"ELIMINAR_LIBRO\"") == 0) {
                 String ISBN = obj.get("ISBN").toString();
                 String Titulo = obj.get("TITULO").toString().substring(1);
                 Titulo = Titulo.substring(0, (Titulo.length() - 1));
@@ -126,7 +132,7 @@ public class Cliente extends Thread {
                 Categoria = Categoria.substring(0, (Categoria.length() - 1));
                 Libro temp = new Libro(Integer.parseInt(ISBN), Titulo, Categoria);
                 DATA.insertar(new Operacion(Operacion.Tipo.ELIMINAR_LIBRO, temp));
-            } else if (data.get(i).toString().compareTo("CREAR_LIBRO") == 0) {
+            } else if (obj.get("TIPO").toString().compareTo("\"CREAR_LIBRO\"") == 0) {
                 String ISBN = obj.get("ISBN").toString();
                 String Año = obj.get("AÑO").toString();
                 String Idioma = obj.get("IDIOMA").toString().substring(1);
@@ -142,12 +148,12 @@ public class Cliente extends Thread {
                 Categoria = Categoria.substring(0, (Categoria.length() - 1));
                 Libro nuevo = new Libro(Integer.parseInt(ISBN), Integer.parseInt(Año), Idioma, Titulo, Editorial, Autor, Integer.parseInt(Edicion), Categoria);
                 DATA.insertar(new Operacion(Operacion.Tipo.CREAR_LIBRO, nuevo));
-            } else if (data.get(i).toString().compareTo("CREAR_CATEGORIA") == 0) {
+            } else if (obj.get("TIPO").toString().compareTo("\"CREAR_CATEGORIA\"") == 0) {
                 String Nombre = obj.get("Nombre").toString().substring(1);
                 Nombre = Nombre.substring(0, (Nombre.length() - 1));
                 Categoria nueva = new Categoria(Nombre);
                 DATA.insertar(new Operacion(Operacion.Tipo.CREAR_CATEGORIA, nueva));
-            } else if (data.get(i).toString().compareTo("ELIMINAR_CATEGORIA") == 0) {
+            } else if (obj.get("TIPO").toString().compareTo("\"ELIMINAR_CATEGORIA\"") == 0) {
                 String Nombre = obj.get("Nombre").toString().substring(1);
                 Nombre = Nombre.substring(0, (Nombre.length() - 1));
                 Categoria temp = new Categoria(Nombre);

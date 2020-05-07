@@ -246,5 +246,10 @@ public class Servidor implements Runnable {
             }
         }
     }
+    
+    public void guardarBloque(Bloque bloque){
+        bloques.insertar(bloque);
+        bloques.dot();
+    }
 
 }

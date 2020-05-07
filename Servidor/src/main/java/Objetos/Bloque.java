@@ -121,7 +121,7 @@ public class Bloque {
     }
 
     public String datos() {
-        String objetoJSON = "\"DATA\":{";
+        String objetoJSON = "\"DATA\":[";
         for (int i = 0; i < this.DATA.Tamaño(); i++) {
             Operacion op = (Operacion) this.DATA.at(i);
             objetoJSON += op.paraEnviar();
@@ -129,7 +129,7 @@ public class Bloque {
                 objetoJSON += ",";
             } 
         }
-        objetoJSON += "},";
+        objetoJSON += "],";
         return objetoJSON;
     }
 

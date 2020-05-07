@@ -102,13 +102,13 @@ public class Operacion {
         if (involucrado instanceof Libro) {
             Libro lib = (Libro) involucrado;
             if (tipo == Tipo.ELIMINAR_LIBRO) {
-                salida += "\"ELIMINAR_LIBRO\":{";
+                salida += "{\"TIPO\":\"ELIMINAR_LIBRO\",";
                 salida += "\"ISBN\":" + lib.getISBN() + ",";
                 salida += "\"TITULO\":\"" + lib.getTitulo() + "\",";
                 salida += "\"CATEGORIA\":\"" + lib.getCategoria() + "\"";
                 salida += "}";
             } else {
-                salida += "\"CREAR_LIBRO\":{";
+                salida += "{\"TIPO\":\"CREAR_LIBRO\",";
                 salida += "\"ISBN\":" + lib.getISBN() + ",";
                 salida += "\"AÑO\":" + lib.getAño() + ",";
                 salida += "\"IDIOMA\":\"" + lib.getIdioma() + "\",";
@@ -121,7 +121,7 @@ public class Operacion {
             }
         } else if (involucrado instanceof Usuario) {
             Usuario user = (Usuario) involucrado;
-            salida += "\"" + tipo.toString() + "\":{";
+            salida += "{\"TIPO\":\"" + tipo.toString() + "\",";
             salida += "\"Carnet\":" + user.getCarnet() + ",";
             salida += "\"Nombre\":\"" + user.getNombre() + "\",";
             salida += "\"Apellido\":\"" + user.getApellido() + "\",";
@@ -130,7 +130,7 @@ public class Operacion {
             salida += "}";
         } else {
             Categoria cat = (Categoria) involucrado;
-            salida += "\"" + tipo.toString() + "\":{";
+            salida += "{\"TIPO\":\"" + tipo.toString() + "\",";
             salida += "\"Nombre\":\"" + cat.getNombre() + "\"";
             salida += "}";
         }
