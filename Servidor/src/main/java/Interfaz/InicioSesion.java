@@ -244,10 +244,10 @@ public class InicioSesion extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if (servidor.usuarioExistente(Integer.parseInt(jTextField2.getText()))) {
-            if (servidor.inicioSesion(Integer.parseInt(jTextField2.getText()), jPasswordField1.getText()))  {
+            if (servidor.inicioSesion(Integer.parseInt(jTextField2.getText()), jPasswordField1.getText())) {
                 Biblioteca biblioteca = new Biblioteca();
-                biblioteca.setUsuario(servidor.user(Integer.parseInt(jTextField2.getText())));
                 biblioteca.setServidor(servidor);
+                biblioteca.setUsuario(servidor.user(Integer.parseInt(jTextField2.getText())));
                 this.setVisible(false);
                 biblioteca.setVisible(true);
             } else {

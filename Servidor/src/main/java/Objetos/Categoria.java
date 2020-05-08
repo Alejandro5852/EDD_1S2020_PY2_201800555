@@ -18,6 +18,15 @@ public class Categoria implements Comparador {
     private String Nombre;
     private String carpeta;
     BTree<Integer, Libro> arbol;
+    private int Carnet;
+
+    public int getCarnet() {
+        return Carnet;
+    }
+
+    public void setCarnet(int Carnet) {
+        this.Carnet = Carnet;
+    }
 
     public BTree<Integer, Libro> getArbol() {
         return arbol;
@@ -95,6 +104,10 @@ public class Categoria implements Comparador {
 
     public void librosDeCategoria(SimpleMenteEnlazada arg) {
         arbol.libros(arg);
+    }
+
+    public long librosAsociados() {
+        return arbol.size();
     }
 
 }

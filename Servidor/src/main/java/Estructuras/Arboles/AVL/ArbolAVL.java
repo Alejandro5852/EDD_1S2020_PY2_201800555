@@ -444,4 +444,16 @@ public class ArbolAVL {
         }
         return encontrado;
     }
+
+    public SimpleMenteEnlazada categoriasDeUsuario(int Carnet) {
+        SimpleMenteEnlazada categorias = objetos(0);
+        SimpleMenteEnlazada deUsuario = new SimpleMenteEnlazada();
+        for (int i = 0; i < categorias.Tamaño(); i++) {
+            Categoria actual = (Categoria) categorias.at(i);
+            if (actual.getCarnet() == Carnet) {
+                deUsuario.insertar(actual);
+            }
+        }
+        return deUsuario;
+    }
 }

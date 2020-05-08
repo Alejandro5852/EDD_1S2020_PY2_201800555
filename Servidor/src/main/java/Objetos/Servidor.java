@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * @author alejandro
  */
 public class Servidor implements Runnable {
-
+    
     private SimpleMenteEnlazada clientes;
     private SimpleMenteEnlazada instancias;
     private SimpleMenteEnlazada nodos;
@@ -39,7 +39,7 @@ public class Servidor implements Runnable {
     private ServerSocket servidor = null;
     private String IP;
     private String carpeta;
-
+    
     public Servidor(int puerto, String IP) {
         this.puerto = puerto;
         this.clientes = new SimpleMenteEnlazada();
@@ -52,7 +52,7 @@ public class Servidor implements Runnable {
         this.bloques = new DobleMenteEnlazada();
         this.carpeta = "";
     }
-
+    
     public void setCarpeta(String carpeta) {
         this.carpeta = carpeta;
         this.bloques.setCarpeta(carpeta);
@@ -62,7 +62,7 @@ public class Servidor implements Runnable {
         this.usuarios.setCarpeta(carpeta);
         this.categorias.setCarpeta(carpeta);
     }
-
+    
     @Override
     public void run() {
         Socket cliente = null;
@@ -84,7 +84,7 @@ public class Servidor implements Runnable {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void nuevaInstancia(String ip, int puerto) {
         Instancia nueva = new Instancia(ip, puerto);
         nueva.setServidor(this);
@@ -96,26 +96,26 @@ public class Servidor implements Runnable {
         nodos.dot(1, "NODOS_EN_RED");
         System.out.println("NUEVA INSTANCIA :" + ip + "::" + puerto);
     }
-
+    
     public String getIp() {
         return this.IP;
     }
-
+    
     public void eliminar(int indice) {
         this.clientes.quitar(indice);
         this.instancias.quitar(indice);
         this.nodos.quitar(indice);
         this.nodos.dot(1, "NODOS_EN_RED");
     }
-
+    
     public SimpleMenteEnlazada getInstancias() {
         return this.instancias;
     }
-
+    
     public SimpleMenteEnlazada getNodos() {
         return this.nodos;
     }
-
+    
     public void nuevoBloque() {
         if (!DATA.estaVacio()) {
             Bloque nuevo = null;
@@ -142,7 +142,7 @@ public class Servidor implements Runnable {
             sincronizar(nuevo);
         }
     }
-
+    
     public void accionar(SimpleMenteEnlazada DATA) {
         for (int i = 0; i < DATA.Tamaño(); i++) {
             Operacion actual = (Operacion) DATA.at(i);
@@ -159,6 +159,7 @@ public class Servidor implements Runnable {
                 if (categorias.estaVacio()) {
                     Categoria nueva = new Categoria(lib.getCategoria());
                     nueva.setCarpeta(carpeta);
+                    nueva.setCarnet(lib.getCarnet());
                     nueva.insertarLibro(lib.getISBN(), lib);
                     try {
                         categorias.insertar(nueva);
@@ -171,6 +172,7 @@ public class Servidor implements Runnable {
                 } else {
                     Categoria nueva = new Categoria(lib.getCategoria());
                     nueva.setCarpeta(carpeta);
+                    nueva.setCarnet(lib.getCarnet());
                     nueva.insertarLibro(lib.getISBN(), lib);
                     try {
                         categorias.insertar(nueva);
@@ -209,7 +211,7 @@ public class Servidor implements Runnable {
             }
         }
     }
-
+    
     public void sincronizar(Bloque bloque) {
         System.out.println("Mandando información a la red...");
         for (int i = 0; i < instancias.Tamaño(); i++) {
@@ -220,18 +222,18 @@ public class Servidor implements Runnable {
         System.out.println(bloque.JSON());
         System.out.println("¡Información esparcida por toda la red!");
     }
-
+    
     public void nuevaOperacion(Operacion.Tipo tipo, Object involucrado) {
         this.DATA.insertar(new Operacion(tipo, involucrado));
     }
-
+    
     public void desconectar() {
         for (int i = 0; i < instancias.Tamaño(); i++) {
             Instancia temp = (Instancia) instancias.at(i);
             temp.mandar("adios");
         }
     }
-
+    
     public void almacenarJSON(Bloque bloque) {
         String ruta = carpeta + "/Bloque#" + bloque.getINDEX() + ".json";
         FileWriter fichero = null;
@@ -252,29 +254,29 @@ public class Servidor implements Runnable {
             }
         }
     }
-
+    
     public void guardarBloque(Bloque bloque) {
         bloques.insertar(bloque);
         bloques.dot();
     }
-
+    
     public boolean usuarioExistente(int Carnet) {
         return usuarios.buscar(Carnet) != null;
     }
-
+    
     public boolean inicioSesion(int Carnet, String pass) {
         Elemento temp = usuarios.buscar(Carnet);
         return temp.getUsuario().getContraseña().compareTo(encriptar(pass)) == 0 && temp.getUsuario().getCarnet() == Carnet;
     }
-
+    
     public Usuario user(int Carnet) {
         return usuarios.buscar(Carnet).getUsuario();
     }
-
+    
     public DobleMenteEnlazada getBloques() {
         return bloques;
     }
-
+    
     private String encriptar(String contraseña) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -289,11 +291,15 @@ public class Servidor implements Runnable {
         }
         return null;
     }
-
+    
     public SimpleMenteEnlazada bibliotecaUsuario(int Carnet) {
         return categorias.bibliotecaUsuario(Carnet);
     }
-
+    
+    public SimpleMenteEnlazada categoriasUsuario(int Carnet) {
+        return categorias.categoriasDeUsuario(Carnet);
+    }
+    
     public boolean libroExistente(int ISBN) {
         return categorias.buscarLibro(ISBN) == true;
     }

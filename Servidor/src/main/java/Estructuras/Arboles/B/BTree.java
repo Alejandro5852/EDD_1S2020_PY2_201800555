@@ -753,11 +753,15 @@ public class BTree<K extends Comparable, V> {
     }
 
     public void libros(SimpleMenteEnlazada arg) {
-        mRoot.general(arg);
+        if (mRoot != null) {
+            mRoot.general(arg);
+        }
     }
 
     public void bibliotecaUsuario(SimpleMenteEnlazada arg, int Carnet) {
-        mRoot.porUsuario(arg, Carnet);
+        if (mRoot != null) {
+            mRoot.porUsuario(arg, Carnet);
+        }
     }
 
     public void dot() {
