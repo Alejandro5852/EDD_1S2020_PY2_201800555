@@ -77,7 +77,7 @@ public class Cliente extends Thread {
                     System.out.println("¡JSON convertido a bloque!");
                     servidor.accionar(nuevo.getDATA());
                     servidor.guardarBloque(nuevo);
-                    servidor.almacenarJSON(nuevo);
+                    servidor.almacenarJSON();
                 } else if (mensaje.compareTo("BLOQUES") == 0) {
                     System.out.println("Solicitud de BLOCKCHAIN");
                     Instancia instancia = (Instancia) servidor.getInstancias().at(indice);

@@ -138,7 +138,7 @@ public class Servidor implements Runnable {
             accionar(DATA);
             bloques.dot();
             this.DATA = new SimpleMenteEnlazada();
-            almacenarJSON(nuevo);
+            almacenarJSON();
             sincronizar(nuevo);
         }
     }
@@ -208,6 +208,9 @@ public class Servidor implements Runnable {
                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 categorias.dot();
+            } else if (actual.getTipo().compareTo("ELIMINAR_USUARIO") == 0) {
+                Usuario a_eliminar = (Usuario) actual.getInvolucrado();
+                usuarios.eliminar(a_eliminar.getCarnet());
             }
         }
     }
@@ -234,23 +237,31 @@ public class Servidor implements Runnable {
         }
     }
     
-    public void almacenarJSON(Bloque bloque) {
-        String ruta = carpeta + "/Bloque#" + bloque.getINDEX() + ".json";
+    public void almacenarJSON() {
+        String json = "";
+        for (int i = 0; i < bloques.getTamaño(); i++) {
+            Bloque temp = (Bloque) bloques.at(i);
+            json += temp.getJson();
+            if (i < (bloques.getTamaño() - 1)) {
+                json += ",\n";
+            }
+        }
+        String ruta = carpeta + "/Blockchain.json";
         FileWriter fichero = null;
         PrintWriter escritor;
         try {
             fichero = new FileWriter(ruta);
             escritor = new PrintWriter(fichero);
-            escritor.print(bloque.getJson());
+            escritor.print(json);
         } catch (IOException e) {
-            System.err.println("Error al escribir el archivo " + "Bloque#" + bloque.getINDEX() + ".json");
+            System.err.println("Error al escribir el archivo " + "Blockchain.json");
         } finally {
             try {
                 if (null != fichero) {
                     fichero.close();
                 }
             } catch (IOException e2) {
-                System.err.println("Error al cerrar el archivo " + "Bloque#" + bloque.getINDEX() + ".json");
+                System.err.println("Error al cerrar el archivo " + "Blockchain.json");
             }
         }
     }
@@ -302,5 +313,30 @@ public class Servidor implements Runnable {
     
     public boolean libroExistente(int ISBN) {
         return categorias.buscarLibro(ISBN) == true;
+    }
+    
+    public SimpleMenteEnlazada biblioteca() {
+        return categorias.bibliotecaEnLista();
+    }
+    
+    public boolean yaTieneBloques() {
+        return bloques.getTamaño() > 0;
+    }
+    
+    public DobleMenteEnlazada clonar() {
+        DobleMenteEnlazada clonada = bloques;
+        bloques = new DobleMenteEnlazada();
+        return clonada;
+    }
+    
+    public void ponerAlDia(DobleMenteEnlazada lista) {
+        for (int i = 0; i < lista.getTamaño(); i++) {
+            Bloque temp = (Bloque) lista.at(i);
+            temp.setINDEX(bloques.getTamaño() - 1);
+            bloques.insertar(temp);
+            System.out.println("Mandando bloque# " + i);
+            sincronizar(temp);
+            System.out.println("¡Bloque mandado!");
+        }
     }
 }

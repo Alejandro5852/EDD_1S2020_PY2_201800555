@@ -5,6 +5,7 @@
  */
 package Interfaz;
 
+import Estructuras.Listas.DoblementeEnlazada.DobleMenteEnlazada;
 import Objetos.Instancia;
 import Objetos.Servidor;
 import java.io.File;
@@ -331,7 +332,12 @@ public class Inicio extends javax.swing.JFrame {
                     instancia.mandar(servidor.getIp());
                     instancia.mandar(Integer.toString(puerto));
                     instancia.mandar("LISTA_IP");
-                    instancia.mandar("BLOQUES");
+                    if (servidor.yaTieneBloques()) {
+                        DobleMenteEnlazada temporal = servidor.clonar();
+                        instancia.mandar("BLOQUES");
+                    } else {
+                        instancia.mandar("BLOQUES");
+                    }
                     for (int i = 1; i < servidor.getInstancias().Tamaño(); i++) {
                         Instancia temp = (Instancia) servidor.getInstancias().at(i);
                         temp.mandar("DATOS");

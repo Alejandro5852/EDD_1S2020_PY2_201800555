@@ -167,7 +167,7 @@ public class Bloque {
         System.out.println("Encriptando...");
         String encriptado = encriptar(INDEX + hora + PREVIOUSHASH + getData() + nonce);
         while (true) {
-            if (encriptado.charAt(0) == '0' && encriptado.charAt(1) == '0' && encriptado.charAt(2) == '0' && encriptado.charAt(3) == '0') {
+            if (encriptado.charAt(0) == '0' && encriptado.charAt(1) == '0' && encriptado.charAt(2) == '0') {
                 break;
             } else {
                 nonce++;
