@@ -170,4 +170,12 @@ public class SimpleMenteEnlazada {
     public int Tamaño() {
         return tamaño;
     }
+
+    public Object[] convertirAarreglo() {
+        Object[] arreglo = new Object[tamaño];
+        for (int i = 0; i < tamaño; i++) {
+            arreglo[i] = this.at(i);
+        }
+        return arreglo;
+    }
 }

@@ -1,5 +1,6 @@
 package Estructuras.Arboles.B;
 
+import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Stack;
@@ -751,34 +752,44 @@ public class BTree<K extends Comparable, V> {
         }
     }
 
+    public void libros(SimpleMenteEnlazada arg) {
+        mRoot.general(arg);
+    }
+
+    public void bibliotecaUsuario(SimpleMenteEnlazada arg, int Carnet) {
+        mRoot.porUsuario(arg, Carnet);
+    }
+
     public void dot() {
-        String Dot = "digraph G{\nrankdir=TB\nnode[shape = record, style = filled, fillcolor = skyblue];\n";
-        Dot += "label =  <<font point-size='20'>Arbol B: " + this.category + "</font>>;\nlabelloc = \"t \";\n";
-        Dot += mRoot.dot();
-        Dot += "}";
-        FileWriter fichero = null;
-        PrintWriter escritor;
-        try {
-            fichero = new FileWriter(carpeta + "/ArbolB_" + this.category + ".dot");
-            escritor = new PrintWriter(fichero);
-            escritor.print(Dot);
-        } catch (Exception e) {
-            System.err.println("Error al escribir el archivo ArbolB_" + this.category + ".dot");
-        } finally {
+        if (mRoot != null) {
+            String Dot = "digraph G{\nrankdir=TB\nnode[shape = record, style = filled, fillcolor = skyblue];\n";
+            Dot += "label =  <<font point-size='20'>Arbol B: " + this.category + "</font>>;\nlabelloc = \"t \";\n";
+            Dot += mRoot.dot();
+            Dot += "}";
+            FileWriter fichero = null;
+            PrintWriter escritor;
             try {
-                if (null != fichero) {
-                    fichero.close();
+                fichero = new FileWriter(carpeta + "/ArbolB_" + this.category + ".dot");
+                escritor = new PrintWriter(fichero);
+                escritor.print(Dot);
+            } catch (Exception e) {
+                System.err.println("Error al escribir el archivo ArbolB_" + this.category + ".dot");
+            } finally {
+                try {
+                    if (null != fichero) {
+                        fichero.close();
+                    }
+                } catch (Exception e2) {
+                    System.err.println("Error al cerrar el archivo ArbolB_" + this.category + ".dot");
                 }
-            } catch (Exception e2) {
-                System.err.println("Error al cerrar el archivo ArbolB_" + this.category + ".dot");
             }
-        }
-        try {
-            Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + carpeta + "/ArbolB_" + this.category + ".jpg" + " " + carpeta + "/ArbolB_" + this.category + ".dot");
-            Thread.sleep(500);
-        } catch (Exception ex) {
-            System.err.println("Error al generar la imagen para el archivo ArbolB_" + this.category + ".dot");
+            try {
+                Runtime rt = Runtime.getRuntime();
+                rt.exec("dot -Tjpg -o " + carpeta + "/ArbolB_" + this.category + ".jpg" + " " + carpeta + "/ArbolB_" + this.category + ".dot");
+                Thread.sleep(500);
+            } catch (Exception ex) {
+                System.err.println("Error al generar la imagen para el archivo ArbolB_" + this.category + ".dot");
+            }
         }
     }
 }

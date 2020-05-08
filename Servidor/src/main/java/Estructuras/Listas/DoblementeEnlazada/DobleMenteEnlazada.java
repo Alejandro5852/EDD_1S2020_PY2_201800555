@@ -116,13 +116,13 @@ public class DobleMenteEnlazada {
                     + "<table color='black' cellspacing='0'>\n"
                     + "\t<tr><td>INDEX</td><td>" + temp.getINDEX() + "</td></tr>\n"
                     + "\t<tr><td>TIMESTAMP</td><td>" + temp.getTIMESTAMP() + "</td></tr>\n"
-                    + "\t<tr><td>DATA</td><td>" + Data + "</td></tr>\n"
+                    + "\t<tr><td>DATA</td><td>\n\n" + Data + "\n\t</td></tr>\n"
                     + "\t<tr><td>NONCE</td><td>" + temp.getNONCE() + "</td></tr>\n"
                     + "\t<tr><td>PREVIOUSHASH</td><td>" + temp.getPREVIOUSHASH() + "</td></tr>\n"
                     + "\t<tr><td>HASH</td><td>" + temp.getHASH() + "</td></tr>\n"
                     + "</table>\n"
                     + "\n"
-                    + ">];";
+                    + ">];\n";
             contador++;
             aux = aux.getSiguiente();
         }

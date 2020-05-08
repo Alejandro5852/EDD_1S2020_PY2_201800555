@@ -135,8 +135,8 @@ public class Servidor implements Runnable {
                     Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            bloques.dot();
             accionar(DATA);
+            bloques.dot();
             this.DATA = new SimpleMenteEnlazada();
             almacenarJSON(nuevo);
             sincronizar(nuevo);
@@ -151,11 +151,14 @@ public class Servidor implements Runnable {
                 if (!usuarioExistente(nuevo.getCarnet())) {
                     usuarios.insertar(nuevo);
                     usuarios.dot();
+                } else {
+                    DATA.quitar(i);
                 }
             } else if (actual.getTipo().compareTo("CREAR_LIBRO") == 0) {
                 Libro lib = (Libro) actual.getInvolucrado();
                 if (categorias.estaVacio()) {
                     Categoria nueva = new Categoria(lib.getCategoria());
+                    nueva.setCarpeta(carpeta);
                     nueva.insertarLibro(lib.getISBN(), lib);
                     try {
                         categorias.insertar(nueva);
@@ -261,10 +264,37 @@ public class Servidor implements Runnable {
 
     public boolean inicioSesion(int Carnet, String pass) {
         Elemento temp = usuarios.buscar(Carnet);
-        return temp.getUsuario().getContraseña().compareTo(temp.getUsuario().encriptar(pass)) == 0 && temp.getUsuario().getCarnet() == Carnet;
+        return temp.getUsuario().getContraseña().compareTo(encriptar(pass)) == 0 && temp.getUsuario().getCarnet() == Carnet;
     }
-    
-    public DobleMenteEnlazada getBloques(){
+
+    public Usuario user(int Carnet) {
+        return usuarios.buscar(Carnet).getUsuario();
+    }
+
+    public DobleMenteEnlazada getBloques() {
         return bloques;
+    }
+
+    private String encriptar(String contraseña) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(contraseña.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public SimpleMenteEnlazada bibliotecaUsuario(int Carnet) {
+        return categorias.bibliotecaUsuario(Carnet);
+    }
+
+    public boolean libroExistente(int ISBN) {
+        return categorias.buscarLibro(ISBN) == true;
     }
 }

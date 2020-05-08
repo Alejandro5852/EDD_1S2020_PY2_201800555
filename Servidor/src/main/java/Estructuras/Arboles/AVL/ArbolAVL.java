@@ -285,51 +285,56 @@ public class ArbolAVL {
     }
 
     public void dot() {
-        String Dot = "digraph G{\n rankdir = TB;\n node[shape = record, style= filled, fillcolor = gray];\n";
-        Dot += "label =  <<font point-size='20'>AVL de categorías</font>>;\n";
-        Dot += raiz.dot();
-        Dot += "}\n";
-        FileWriter fichero = null;
-        PrintWriter escritor;
-        try {
-            fichero = new FileWriter(carpeta + "/AVL.dot");
-            escritor = new PrintWriter(fichero);
-            escritor.print(Dot);
-        } catch (Exception e) {
-            System.err.println("Error al escribir el archivo AVL.dot");
-        } finally {
+        if (raiz != null) {
+            String Dot = "digraph G{\n rankdir = TB;\n node[shape = record, style= filled, fillcolor = gray];\n";
+            Dot += "label =  <<font point-size='20'>AVL de categorías</font>>;\n";
+            Dot += raiz.dot();
+            Dot += "}\n";
+            FileWriter fichero = null;
+            PrintWriter escritor;
             try {
-                if (null != fichero) {
-                    fichero.close();
+                fichero = new FileWriter(carpeta + "/AVL.dot");
+                escritor = new PrintWriter(fichero);
+                escritor.print(Dot);
+            } catch (Exception e) {
+                System.err.println("Error al escribir el archivo AVL.dot");
+            } finally {
+                try {
+                    if (null != fichero) {
+                        fichero.close();
+                    }
+                } catch (Exception e2) {
+                    System.err.println("Error al cerrar el archivo AVL.dot");
                 }
-            } catch (Exception e2) {
-                System.err.println("Error al cerrar el archivo AVL.dot");
             }
+            try {
+                Runtime rt = Runtime.getRuntime();
+                rt.exec("dot -Tjpg -o " + carpeta + "/AVL.jpg" + " " + carpeta + "/AVL.dot");
+                Thread.sleep(500);
+            } catch (Exception ex) {
+                System.err.println("Error al generar la imagen para el archivo AVL.dot");
+            }
+            dotPreOrder();
+            dotInOrder();
+            dotPosOrder();
         }
-        try {
-            Runtime rt = Runtime.getRuntime();
-            rt.exec("dot -Tjpg -o " + carpeta + "/AVL.jpg" + " " + carpeta + "/AVL.dot");
-            Thread.sleep(500);
-        } catch (Exception ex) {
-            System.err.println("Error al generar la imagen para el archivo AVL.dot");
-        }
-        dotPreOrder();
-        dotInOrder();
-        dotPosOrder();
     }
 
     public void dotPreOrder() {
         SimpleMenteEnlazada preOrder = objetos(0);
+        preOrder.setCarpeta(carpeta);
         preOrder.dot(0, "AVL_PreOrder");
     }
 
     public void dotInOrder() {
         SimpleMenteEnlazada inOrder = objetos(1);
+        inOrder.setCarpeta(carpeta);
         inOrder.dot(0, "AVL_InOrder");
     }
 
     public void dotPosOrder() {
         SimpleMenteEnlazada posOrder = objetos(2);
+        posOrder.setCarpeta(carpeta);
         posOrder.dot(0, "AVL_PosOrder");
     }
 
@@ -393,7 +398,7 @@ public class ArbolAVL {
                 if (temp.getNombre().compareTo(Nombre) == 0) {
                     encontrado = true;
                     encontrada = temp;
-                } else if (temp.getNombre().compareTo(Nombre) < 0) {
+                } else if (temp.getNombre().compareTo(Nombre) > 0) {
                     raizSub = raizSub.subarbolIzdo();
                 } else {
                     raizSub = raizSub.subarbolDcho();
@@ -405,5 +410,38 @@ public class ArbolAVL {
 
     public boolean estaVacio() {
         return raiz == null;
+    }
+
+    public SimpleMenteEnlazada bibliotecaUsuario(int Carnet) {
+        SimpleMenteEnlazada categorias = objetos(0);
+        SimpleMenteEnlazada biblioteca = new SimpleMenteEnlazada();
+        for (int i = 0; i < categorias.Tamaño(); i++) {
+            Categoria temp = (Categoria) categorias.at(i);
+            temp.BibliotecaUsuario(Carnet, biblioteca);
+        }
+        return biblioteca;
+    }
+
+    public SimpleMenteEnlazada bibliotecaEnLista() {
+        SimpleMenteEnlazada categorias = objetos(0);
+        SimpleMenteEnlazada biblioteca = new SimpleMenteEnlazada();
+        for (int i = 0; i < categorias.Tamaño(); i++) {
+            Categoria temp = (Categoria) categorias.at(i);
+            temp.librosDeCategoria(biblioteca);
+        }
+        return biblioteca;
+    }
+
+    public boolean buscarLibro(int ISBN) {
+        boolean encontrado = false;
+        SimpleMenteEnlazada categorias = objetos(0);
+        for (int i = 0; i < categorias.Tamaño(); i++) {
+            Categoria temp = (Categoria) categorias.at(i);
+            if (temp.getArbol().search(ISBN) != null) {
+                encontrado = true;
+                break;
+            }
+        }
+        return encontrado;
     }
 }

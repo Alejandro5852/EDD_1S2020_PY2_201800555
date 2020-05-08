@@ -6,7 +6,6 @@
 package Main;
 
 import Interfaz.Inicio;
-import Objetos.Servidor;
 
 /**
  *
@@ -18,5 +17,4 @@ public class main {
         Inicio inicio = new Inicio();
         inicio.setVisible(true);
     }
-
 }

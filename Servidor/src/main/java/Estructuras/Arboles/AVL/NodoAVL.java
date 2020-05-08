@@ -5,6 +5,7 @@
  */
 package Estructuras.Arboles.AVL;
 
+import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import Objetos.Categoria;
 
 /**
@@ -60,7 +61,10 @@ public class NodoAVL {
     public String dot() {
         String Dot = "";
         Categoria aux = (Categoria) this.dato;
-        Dot += "\"" + aux.getNombre() + "\" [label = \"<C0>|" + aux.getNombre() + " " + aux.getArbol().size() + "|<C1>\"]\n";
+        SimpleMenteEnlazada a = new SimpleMenteEnlazada();
+        aux.librosDeCategoria(a);
+        int num = a.Tamaño();
+        Dot += "\"" + aux.getNombre() + "\" [label = \"<C0>|" + aux.getNombre() + ": " + num + "|<C1>\"]\n";
         if (izdo != null) {
             Categoria temp = (Categoria) izdo.dato;
             Dot += izdo.dot() + "\"" + aux.getNombre() + "\" :C0->\"" + temp.getNombre() + "\";\n";

@@ -7,6 +7,7 @@ package Objetos;
 
 import Estructuras.Arboles.Comparador;
 import Estructuras.Arboles.B.BTree;
+import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Categoria implements Comparador {
     public Categoria(String Nombre) {
         this.Nombre = Nombre;
         arbol = new BTree();
+        arbol.setCategory(Nombre);
         this.carpeta = "";
     }
 
@@ -85,6 +87,14 @@ public class Categoria implements Comparador {
     public void eliminarLibro(int ISBN) {
         this.arbol.delete(ISBN);
         this.arbol.dot();
+    }
+
+    public void BibliotecaUsuario(int Carnet, SimpleMenteEnlazada arg) {
+        arbol.bibliotecaUsuario(arg, Carnet);
+    }
+
+    public void librosDeCategoria(SimpleMenteEnlazada arg) {
+        arbol.libros(arg);
     }
 
 }

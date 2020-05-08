@@ -15,6 +15,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileReader;
+import java.util.Arrays;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -98,6 +99,11 @@ public class InicioSesion extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(102, 102, 102));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Iniciar Sesión");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Carga de usuarios");
@@ -234,6 +240,25 @@ public class InicioSesion extends javax.swing.JFrame {
         this.setVisible(false);
         registro.setVisible(true);
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if (servidor.usuarioExistente(Integer.parseInt(jTextField2.getText()))) {
+            if (servidor.inicioSesion(Integer.parseInt(jTextField2.getText()), jPasswordField1.getText()))  {
+                Biblioteca biblioteca = new Biblioteca();
+                biblioteca.setUsuario(servidor.user(Integer.parseInt(jTextField2.getText())));
+                biblioteca.setServidor(servidor);
+                this.setVisible(false);
+                biblioteca.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "CREDENCIALES ERRÓNEAS");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "USUARIO INEXISTENTE");
+            jTextField2.setText("");
+            jPasswordField1.setText("");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

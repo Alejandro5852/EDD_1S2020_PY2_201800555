@@ -79,17 +79,21 @@ public class Cliente extends Thread {
                     servidor.guardarBloque(nuevo);
                     servidor.almacenarJSON(nuevo);
                 } else if (mensaje.compareTo("BLOQUES") == 0) {
+                    System.out.println("Solicitud de BLOCKCHAIN");
                     Instancia instancia = (Instancia) servidor.getInstancias().at(indice);
+                    System.out.println("Enviando cadena...");
                     for (int i = 0; i < servidor.getBloques().getTamaño(); i++) {
                         Bloque temp = (Bloque) servidor.getBloques().at(i);
                         instancia.mandar("NUEVO_BLOQUE");
                         instancia.mandar(temp.JSON());
                     }
+                    System.out.println("¡Cadena enviada!");
                 } else {
                     System.out.println(mensaje);
                 }
             } while (!mensaje.equals("adios"));
-            System.out.println("CLIENTE DESCONECTADO");
+            NodoRed salido = (NodoRed) servidor.getNodos().at(indice);
+            System.out.println("La instancia con dirección ip: " + salido.getDireccionIP() + " y puerto: " + salido.getPuerto() + ", se ha desconectado de la red.");
             socket.close();
             servidor.eliminar(indice);
         } catch (IOException ex) {

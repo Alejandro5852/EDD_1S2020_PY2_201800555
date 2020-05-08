@@ -36,23 +36,23 @@ public class Operacion {
     }
 
     public String paraGraphviz() {
-        String dot = getTipo() + ": ";
+        String dot = "\t\t"+getTipo() + ": ";
         if (involucrado instanceof Libro) {
             Libro lib = (Libro) involucrado;
             if (tipo == Tipo.ELIMINAR_LIBRO) {
-                dot += "ISBN: " + lib.getISBN() + ", " + "TITULO: " + lib.getTitulo() + ": " + "CATEGORIA: " + lib.getCategoria() + "<br/>";
+                dot += "ISBN: " + lib.getISBN() + ", " + "TITULO: " + lib.getTitulo() + ": " + "CATEGORIA: " + lib.getCategoria() + "<br/>\n";
             } else {
                 dot += "ISBN: " + lib.getISBN() + ", AÑO: " + lib.getAño() + ", IDIOMA: " + lib.getIdioma() + ", TITULO: " + lib.getTitulo() + ": "
                         + ", EDITORIAL: " + lib.getEditorial() + ", AUTOR: " + lib.getAutor() + ", EDICION: " + lib.getEdicion()
-                        + ", CATEGORIA: " + lib.getCategoria() + "<br/>";
+                        + ", CATEGORIA: " + lib.getCategoria() + "<br/>\n";
             }
         } else if (involucrado instanceof Usuario) {
             Usuario user = (Usuario) involucrado;
             dot += "CARNET: " + user.getCarnet() + ", NOMBRE: " + user.getNombre() + ", APELLIDO: " + user.getApellido()
-                    + ", CARRERA: " + user.getCarrera() + ", PASSWORD: " + user.getContraseña() + "<br/>";
+                    + ", CARRERA: " + user.getCarrera() + ", PASSWORD: " + user.getContraseña() + "<br/>\n";
         } else {
             Categoria cat = (Categoria) involucrado;
-            dot += "NOMBRE: " + cat.getNombre() + "<br/>";
+            dot += "NOMBRE: " + cat.getNombre() + "<br/>\n";
         }
         return dot;
     }

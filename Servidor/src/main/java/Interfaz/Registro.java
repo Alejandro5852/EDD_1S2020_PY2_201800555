@@ -24,7 +24,7 @@ public class Registro extends javax.swing.JFrame {
      * Creates new form Registro
      */
     Servidor servidor;
-    
+
     public Registro() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -35,7 +35,7 @@ public class Registro extends javax.swing.JFrame {
             }
         });
     }
-    
+
     public void setServidor(Servidor servidor) {
         this.servidor = servidor;
     }
@@ -221,8 +221,10 @@ public class Registro extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Usuario existente");
                 jTextField5.setText("");
             } else {
+                JOptionPane.showMessageDialog(this, "Creando Usuario...");
                 Usuario nuevo = new Usuario(jTextField6.getText(), jTextField7.getText(), jTextField8.getText(), jPasswordField2.getText(), Integer.parseInt(jTextField5.getText()));
                 servidor.nuevaOperacion(Operacion.Tipo.CREAR_USUARIO, nuevo);
+                JOptionPane.showMessageDialog(this, "Esparciendo por la red...");
                 servidor.nuevoBloque();
                 JOptionPane.showMessageDialog(this, "USUARIO CREADO");
                 InicioSesion inicio = new InicioSesion();
