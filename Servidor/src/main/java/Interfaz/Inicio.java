@@ -335,6 +335,7 @@ public class Inicio extends javax.swing.JFrame {
                     if (servidor.yaTieneBloques()) {
                         DobleMenteEnlazada temporal = servidor.clonar();
                         instancia.mandar("BLOQUES");
+                        servidor.ponerAlDia(temporal);
                     } else {
                         instancia.mandar("BLOQUES");
                     }

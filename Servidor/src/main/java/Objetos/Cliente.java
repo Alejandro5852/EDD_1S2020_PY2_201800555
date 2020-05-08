@@ -145,7 +145,7 @@ public class Cliente extends Thread {
                 DATA.insertar(new Operacion(Operacion.Tipo.ELIMINAR_LIBRO, temp));
             } else if (obj.get("TIPO").toString().compareTo("\"CREAR_LIBRO\"") == 0) {
                 String ISBN = obj.get("ISBN").toString();
-                String Año = obj.get("AÑO").toString();
+                String Año = obj.get("YEAR").toString();
                 String Idioma = obj.get("IDIOMA").toString().substring(1);
                 Idioma = Idioma.substring(0, (Idioma.length() - 1));
                 String Titulo = obj.get("TITULO").toString().substring(1);

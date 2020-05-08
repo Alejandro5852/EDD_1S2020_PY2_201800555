@@ -94,7 +94,7 @@ public class Operacion {
             } else {
                 salida += "{\"TIPO\":\"CREAR_LIBRO\",";
                 salida += "\"ISBN\":" + lib.getISBN() + ",";
-                salida += "\"AÑO\":" + lib.getAño() + ",";
+                salida += "\"YEAR\":" + lib.getAño() + ",";
                 salida += "\"IDIOMA\":\"" + lib.getIdioma() + "\",";
                 salida += "\"TITULO\":\"" + lib.getTitulo() + "\",";
                 salida += "\"EDITORIAL\":\"" + lib.getEditorial() + "\",";

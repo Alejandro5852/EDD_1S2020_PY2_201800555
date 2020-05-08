@@ -897,12 +897,16 @@ public class Biblioteca extends javax.swing.JFrame {
         jTextField14.setBackground(new java.awt.Color(102, 102, 102));
         jTextField14.setForeground(new java.awt.Color(0, 0, 0));
 
+        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
         jLabel27.setText("Nombre");
 
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
         jLabel28.setText("Apellido");
 
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
         jLabel29.setText("Carrera");
 
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
         jLabel30.setText("Contraseña");
 
         jPasswordField1.setBackground(new java.awt.Color(102, 102, 102));
