@@ -5,8 +5,10 @@
  */
 package Interfaz;
 
+import Estructuras.Listas.DoblementeEnlazada.DobleMenteEnlazada;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import Objetos.Categoria;
+import Objetos.Instancia;
 import Objetos.Libro;
 import Objetos.Operacion;
 import Objetos.Servidor;
@@ -190,6 +192,12 @@ public class Biblioteca extends javax.swing.JFrame {
         jPasswordField1 = new javax.swing.JPasswordField();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
+        jLabel31 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jTextField16 = new javax.swing.JTextField();
+        jTextField17 = new javax.swing.JTextField();
+        jButton18 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BIBLIOTECA");
@@ -865,6 +873,7 @@ public class Biblioteca extends javax.swing.JFrame {
         jTabbedPane2.addTab("Biblioteca Red", jPanel3);
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel4.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel26.setForeground(new java.awt.Color(255, 255, 255));
         jLabel26.setText("OPERACIONES");
@@ -990,6 +999,30 @@ public class Biblioteca extends javax.swing.JFrame {
             }
         });
 
+        jLabel31.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel31.setText("CONECTARSE A UNA RED");
+
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setText("Dirección IP");
+
+        jLabel33.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel33.setText("Puerto");
+
+        jTextField16.setBackground(new java.awt.Color(102, 102, 102));
+        jTextField16.setForeground(new java.awt.Color(0, 0, 0));
+
+        jTextField17.setBackground(new java.awt.Color(102, 102, 102));
+        jTextField17.setForeground(new java.awt.Color(0, 0, 0));
+
+        jButton18.setBackground(new java.awt.Color(102, 102, 102));
+        jButton18.setForeground(new java.awt.Color(0, 0, 0));
+        jButton18.setText("Conectar");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -1005,6 +1038,25 @@ public class Biblioteca extends javax.swing.JFrame {
                         .addComponent(jButton16))
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel31)
+                .addGap(242, 242, 242))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(110, 110, 110)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField16)
+                    .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel33)
+                        .addGap(143, 143, 143))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addComponent(jButton18)
+                        .addGap(84, 84, 84)
+                        .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(123, 123, 123))))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1018,7 +1070,18 @@ public class Biblioteca extends javax.swing.JFrame {
                             .addComponent(jButton15))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 397, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel31)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel32)
+                    .addComponent(jLabel33))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton18))
+                .addGap(0, 284, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Mi cuenta", jPanel4);
@@ -1204,7 +1267,7 @@ public class Biblioteca extends javax.swing.JFrame {
         // TODO add your handling code here:
         int confirmacion = JOptionPane.showConfirmDialog(this, "¿Estás seguro de eliminar este libro?");
         if (JOptionPane.OK_OPTION == confirmacion) {
-            String seleccion = JOptionPane.showInputDialog(this,"Ingrese razón por la cual borrará el libro",JOptionPane.QUESTION_MESSAGE);
+            String seleccion = JOptionPane.showInputDialog(this, "Ingrese razón por la cual borrará el libro", JOptionPane.QUESTION_MESSAGE);
             Libro lib = getLibro(jTable1.getSelectedRow());
             servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_LIBRO, lib);
             JOptionPane.showMessageDialog(this, "Operacion cargada al sistema, para guardar los cambios, presiona sincronizar");
@@ -1337,11 +1400,54 @@ public class Biblioteca extends javax.swing.JFrame {
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
         servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_USUARIO, usuario);
+        SimpleMenteEnlazada libros = servidor.bibliotecaUsuario(usuario.getCarnet());
+        SimpleMenteEnlazada categorias = servidor.categoriasUsuario(usuario.getCarnet());
+        for (int i = 0; i < libros.Tamaño(); i++) {
+            Libro temp = (Libro) libros.at(i);
+            servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_LIBRO, temp);
+        }
+        for (int i = 0; i < libros.Tamaño(); i++) {
+            Categoria temp = (Categoria) categorias.at(i);
+            servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_CATEGORIA, temp);
+        }
+        servidor.nuevoBloque();
         this.setVisible(false);
         InicioSesion inicio = new InicioSesion();
         inicio.setServidor(servidor);
         inicio.setVisible(true);
     }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+        Pattern ip = Pattern.compile(".*$");
+        Pattern puerto = Pattern.compile("[0-9]*$");
+        Matcher IP = ip.matcher(jTextField16.getText());
+        Matcher PUERTO = puerto.matcher(jTextField17.getText());
+        if (IP.matches() && PUERTO.matches() && jTextField16.getText().compareTo("") != 0 && jTextField17.getText().compareTo("") != 0) {
+            servidor.nuevaInstancia(jTextField16.getText(), Integer.parseInt(jTextField17.getText()));
+            Instancia instancia = (Instancia) servidor.getInstancias().Primero();
+            if (instancia.estaConectado()) {
+                JOptionPane.showMessageDialog(this, "CONECTADO");
+            }
+            instancia.mandar("DATOS");
+            instancia.mandar(servidor.getIp());
+            instancia.mandar(Integer.toString(servidor.getPuerto()));
+            instancia.mandar("LISTA_IP");
+            if (servidor.yaTieneBloques()) {
+                DobleMenteEnlazada temporal = servidor.clonar();
+                instancia.mandar("BLOQUES");
+                servidor.ponerAlDia(temporal);
+            } else {
+                instancia.mandar("BLOQUES");
+            }
+            for (int i = 1; i < servidor.getInstancias().Tamaño(); i++) {
+                Instancia temp = (Instancia) servidor.getInstancias().at(i);
+                temp.mandar("DATOS");
+                temp.mandar(servidor.getIp());
+                temp.mandar(Integer.toString(servidor.getPuerto()));
+            }
+        }
+    }//GEN-LAST:event_jButton18ActionPerformed
 
     public class modeloTabla extends DefaultTableModel {
 
@@ -1452,6 +1558,7 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1484,6 +1591,9 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -1514,6 +1624,8 @@ public class Biblioteca extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
     private javax.swing.JTextField jTextField15;
+    private javax.swing.JTextField jTextField16;
+    private javax.swing.JTextField jTextField17;
     private javax.swing.JTextField jTextField18;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
