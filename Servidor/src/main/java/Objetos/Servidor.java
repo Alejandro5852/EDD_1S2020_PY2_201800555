@@ -324,15 +324,18 @@ public class Servidor implements Runnable {
     }
 
     public DobleMenteEnlazada clonar() {
-        DobleMenteEnlazada clonada = bloques;
-        bloques = new DobleMenteEnlazada();
+        DobleMenteEnlazada clonada = this.bloques;
+        this.bloques = new DobleMenteEnlazada();
+        this.bloques.setCarpeta(carpeta);
         return clonada;
     }
 
     public void ponerAlDia(DobleMenteEnlazada lista) {
         for (int i = 0; i < lista.getTamaño(); i++) {
             Bloque temp = (Bloque) lista.at(i);
-            temp.setINDEX(bloques.getTamaño() - 1);
+            Bloque x = (Bloque)bloques.Ultimo();
+            temp.setINDEX(bloques.getTamaño());
+            temp.setPREVIOUSHASH(x.getHASH());
             bloques.insertar(temp);
             System.out.println("Mandando bloque# " + i);
             sincronizar(temp);
