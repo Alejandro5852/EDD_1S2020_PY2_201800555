@@ -1476,7 +1476,7 @@ public class Biblioteca extends javax.swing.JFrame {
         }
         SimpleMenteEnlazada bibliotecaGeneral = servidor.biblioteca();
         for (int z = jTable3.getRowCount() - 1; z >= 0; z--) {
-            modeloMisCategorias.removeRow(z);
+            modeloGeneral.removeRow(z);
         }
         for (int i = 0; i < bibliotecaGeneral.Tamaño(); i++) {
             Libro lib = (Libro) bibliotecaGeneral.at(i);

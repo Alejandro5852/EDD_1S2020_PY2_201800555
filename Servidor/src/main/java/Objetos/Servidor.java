@@ -324,9 +324,11 @@ public class Servidor implements Runnable {
     }
 
     public DobleMenteEnlazada clonar() {
-        DobleMenteEnlazada clonada = this.bloques;
-        this.bloques = new DobleMenteEnlazada();
-        this.bloques.setCarpeta(carpeta);
+        DobleMenteEnlazada clonada = new DobleMenteEnlazada();
+        for(int i = 0; i<bloques.getTamaño(); i++){
+            clonada.insertar(bloques.at(i));
+        }
+        this.bloques.vaciar();
         return clonada;
     }
 

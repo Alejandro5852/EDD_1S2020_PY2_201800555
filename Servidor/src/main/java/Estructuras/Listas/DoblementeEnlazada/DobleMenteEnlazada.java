@@ -31,6 +31,11 @@ public class DobleMenteEnlazada {
         this.carpeta = carpeta;
     }
 
+    public void vaciar() {
+        this.cabeza = null;
+        this.tamaño = 0;
+    }
+
     public void insertar(Object dato) {
         NodoL nuevo = new NodoL(dato);
         if (estaVacio()) {
