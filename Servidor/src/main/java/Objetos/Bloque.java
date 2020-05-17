@@ -95,7 +95,7 @@ public class Bloque {
     }
 
     public String getData() {
-        String objetoJSON = "\t\"DATA\":[\n\t\t{\n";
+        String objetoJSON = "\t\t\"DATA\":[\n\t\t\t{\n";
         for (int i = 0; i < this.DATA.Tamaño(); i++) {
             Operacion op = (Operacion) this.DATA.at(i);
             objetoJSON += op.paraJSON();
@@ -105,18 +105,18 @@ public class Bloque {
                 objetoJSON += "\n";
             }
         }
-        objetoJSON += "\t\t}\n\t],\n";
+        objetoJSON += "\t\t}\n\t\t],\n";
         return objetoJSON;
     }
 
     public String getJson() {
-        String JSON = "{\n";
-        JSON += "\t\"INDEX\":" + getINDEX() + ",\n";
-        JSON += "\t\"TIMESTAMP\":\"" + getTIMESTAMP() + "\",\n";
-        JSON += "\t\"NONCE\":" + getNONCE() + ",\n";
+        String JSON = "\t\t{\n";
+        JSON += "\t\t\"INDEX\":" + getINDEX() + ",\n";
+        JSON += "\t\t\"TIMESTAMP\":\"" + getTIMESTAMP() + "\",\n";
+        JSON += "\t\t\"NONCE\":" + getNONCE() + ",\n";
         JSON += getData();
-        JSON += "\t\"PREVIOUSHASH\":\"" + getPREVIOUSHASH() + "\",\n";
-        JSON += "\t\"HASH\":\"" + getHASH() + "\"\n}";
+        JSON += "\t\t\"PREVIOUSHASH\":\"" + getPREVIOUSHASH() + "\",\n";
+        JSON += "\t\t\"HASH\":\"" + getHASH() + "\"\n\t\t}";
         return JSON;
     }
 
@@ -167,7 +167,7 @@ public class Bloque {
         System.out.println("Encriptando...");
         String encriptado = encriptar(INDEX + hora + PREVIOUSHASH + getData() + nonce);
         while (true) {
-            if (encriptado.charAt(0) == '0' && encriptado.charAt(1) == '0' && encriptado.charAt(2) == '0') {
+            if (encriptado.charAt(0) == '0' && encriptado.charAt(1) == '0' && encriptado.charAt(2) == '0'&& encriptado.charAt(3) == '0') {
                 break;
             } else {
                 nonce++;

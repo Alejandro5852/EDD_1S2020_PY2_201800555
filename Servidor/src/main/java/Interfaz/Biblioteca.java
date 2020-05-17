@@ -8,6 +8,7 @@ package Interfaz;
 import Estructuras.Listas.DoblementeEnlazada.DobleMenteEnlazada;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import Objetos.Categoria;
+import Objetos.Cliente;
 import Objetos.Instancia;
 import Objetos.Libro;
 import Objetos.Operacion;
@@ -1434,9 +1435,9 @@ public class Biblioteca extends javax.swing.JFrame {
             instancia.mandar(Integer.toString(servidor.getPuerto()));
             instancia.mandar("LISTA_IP");
             if (servidor.yaTieneBloques()) {
-                DobleMenteEnlazada temporal = servidor.clonar();
+                Cliente cliente = servidor.getCliente(0);
+                cliente.setTemp(servidor.clonar());
                 instancia.mandar("BLOQUES");
-                servidor.ponerAlDia(temporal);
             } else {
                 instancia.mandar("BLOQUES");
             }

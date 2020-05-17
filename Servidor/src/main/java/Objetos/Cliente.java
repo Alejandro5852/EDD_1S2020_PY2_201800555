@@ -5,9 +5,9 @@
  */
 package Objetos;
 
+import Estructuras.Listas.DoblementeEnlazada.DobleMenteEnlazada;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
-;
-import com.google.gson.Gson;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -30,11 +30,12 @@ public class Cliente extends Thread {
     private Socket socket;
     int indice;
     private Servidor servidor;
-
+    private DobleMenteEnlazada temp;
     public Cliente(Socket socket, int indice, Servidor servidor) {
         this.socket = socket;
         this.indice = indice;
         this.servidor = servidor;
+        this.temp = null;
     }
 
     public void run() {
@@ -78,6 +79,10 @@ public class Cliente extends Thread {
                     servidor.accionar(nuevo.getDATA());
                     servidor.guardarBloque(nuevo);
                     servidor.almacenarJSON();
+                    if(temp != null){
+                        servidor.ponerAlDia(temp);
+                    }
+                    temp = null;
                 } else if (mensaje.compareTo("BLOQUES") == 0) {
                     System.out.println("Solicitud de BLOCKCHAIN");
                     Instancia instancia = (Instancia) servidor.getInstancias().at(indice);
@@ -177,5 +182,8 @@ public class Cliente extends Thread {
         HASH = HASH.substring(0, (HASH.length() - 1));
         Bloque bloque = new Bloque(INDEX, NONCE, TIMESTAMP, DATA, PREVIOUSHASH, HASH);
         return bloque;
+    }
+    public void setTemp(DobleMenteEnlazada temp){
+        this.temp = temp;
     }
 }

@@ -6,7 +6,6 @@
 package Objetos;
 
 import Estructuras.Arboles.AVL.ArbolAVL;
-import Estructuras.Arboles.B.BTree;
 import Estructuras.Listas.DoblementeEnlazada.DobleMenteEnlazada;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 import Estructuras.TablaHash.Elemento;
@@ -31,6 +30,7 @@ public class Servidor implements Runnable {
     private SimpleMenteEnlazada clientes;
     private SimpleMenteEnlazada instancias;
     private SimpleMenteEnlazada nodos;
+    private SimpleMenteEnlazada oidos;
     private SimpleMenteEnlazada DATA;
     private DobleMenteEnlazada bloques;
     private int puerto;
@@ -51,6 +51,7 @@ public class Servidor implements Runnable {
         this.DATA = new SimpleMenteEnlazada();
         this.bloques = new DobleMenteEnlazada();
         this.carpeta = "";
+        this.oidos = new SimpleMenteEnlazada();
     }
 
     public void setCarpeta(String carpeta) {
@@ -78,7 +79,9 @@ public class Servidor implements Runnable {
                 cliente = servidor.accept();
                 System.out.println("Cliente conectado: IP: " + cliente.getInetAddress() + "::PUERTO: " + cliente.getPort());
                 clientes.insertar(cliente);
-                new Cliente(cliente, (clientes.Tamaño() - 1), this).start();
+                Cliente nuevo = new Cliente(cliente, (clientes.Tamaño() - 1), this);
+                oidos.insertar(nuevo);
+                nuevo.start();
             }
         } catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,6 +117,10 @@ public class Servidor implements Runnable {
 
     public SimpleMenteEnlazada getNodos() {
         return this.nodos;
+    }
+
+    public Cliente getCliente(int indice) {
+        return (Cliente) this.oidos.at(indice);
     }
 
     public void nuevoBloque() {
@@ -238,14 +245,17 @@ public class Servidor implements Runnable {
     }
 
     public void almacenarJSON() {
-        String json = "";
+        String json = "{\n\t\"BLOCKCHAIN\":\n\t[\n";
         for (int i = 0; i < bloques.getTamaño(); i++) {
             Bloque temp = (Bloque) bloques.at(i);
             json += temp.getJson();
             if (i < (bloques.getTamaño() - 1)) {
                 json += ",\n";
+            }else{
+                json+="\n";
             }
         }
+        json += "\t]\n}";
         String ruta = carpeta + "/Blockchain.json";
         FileWriter fichero = null;
         PrintWriter escritor;
@@ -324,18 +334,16 @@ public class Servidor implements Runnable {
     }
 
     public DobleMenteEnlazada clonar() {
-        DobleMenteEnlazada clonada = new DobleMenteEnlazada();
-        for(int i = 0; i<bloques.getTamaño(); i++){
-            clonada.insertar(bloques.at(i));
-        }
-        this.bloques.vaciar();
+        DobleMenteEnlazada clonada = bloques;
+        bloques = new DobleMenteEnlazada();
+        bloques.setCarpeta(carpeta);
         return clonada;
     }
 
     public void ponerAlDia(DobleMenteEnlazada lista) {
         for (int i = 0; i < lista.getTamaño(); i++) {
             Bloque temp = (Bloque) lista.at(i);
-            Bloque x = (Bloque)bloques.Ultimo();
+            Bloque x = (Bloque) bloques.Ultimo();
             temp.setINDEX(bloques.getTamaño());
             temp.setPREVIOUSHASH(x.getHASH());
             bloques.insertar(temp);
@@ -343,6 +351,8 @@ public class Servidor implements Runnable {
             sincronizar(temp);
             System.out.println("¡Bloque mandado!");
         }
+        bloques.dot();
+        almacenarJSON();
     }
 
     public int getPuerto() {

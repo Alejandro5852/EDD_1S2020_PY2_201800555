@@ -46,37 +46,37 @@ public class Operacion {
         if (involucrado instanceof Libro) {
             Libro lib = (Libro) involucrado;
             if (tipo == Tipo.ELIMINAR_LIBRO) {
-                salida += "\t\t\"ELIMINAR_LIBRO\":[\n\t\t\t{\n";
-                salida += "\t\t\t\"ISBN\":" + lib.getISBN() + ",\n";
-                salida += "\t\t\t\"TITULO\":\"" + lib.getTitulo() + "\",\n";
-                salida += "\t\t\t\"CATEGORIA\":\"" + lib.getCategoria() + "\"\n";
-                salida += "\t\t\t}\n\t\t]";
+                salida += "\t\t\t\"ELIMINAR_LIBRO\":[\n\t\t\t\t{\n";
+                salida += "\t\t\t\t\"ISBN\":" + lib.getISBN() + ",\n";
+                salida += "\t\t\t\t\"TITULO\":\"" + lib.getTitulo() + "\",\n";
+                salida += "\t\t\t\t\"CATEGORIA\":\"" + lib.getCategoria() + "\"\n";
+                salida += "\t\t\t\t}\n\t\t\t\t]";
             } else {
-                salida += "\t\t\"CREAR_LIBRO\":[\n\t\t\t{\n";
-                salida += "\t\t\t\"ISBN\":" + lib.getISBN() + ",\n";
-                salida += "\t\t\t\"AÑO\":" + lib.getAño() + ",\n";
-                salida += "\t\t\t\"IDIOMA\":\"" + lib.getIdioma() + "\",\n";
-                salida += "\t\t\t\"TITULO\":\"" + lib.getTitulo() + "\",\n";
-                salida += "\t\t\t\"EDITORIAL\":\"" + lib.getEditorial() + "\",\n";
-                salida += "\t\t\t\"AUTOR\":\"" + lib.getAutor() + "\",\n";
-                salida += "\t\t\t\"EDICION\":" + lib.getEdicion() + ",\n";
-                salida += "\t\t\t\"CATEGORIA\":\"" + lib.getCategoria() + "\"\n";
-                salida += "\t\t\t}\n\t\t]";
+                salida += "\t\t\t\"CREAR_LIBRO\":[\n\t\t\t\t{\n";
+                salida += "\t\t\t\t\"ISBN\":" + lib.getISBN() + ",\n";
+                salida += "\t\t\t\t\"AÑO\":" + lib.getAño() + ",\n";
+                salida += "\t\t\t\t\"IDIOMA\":\"" + lib.getIdioma() + "\",\n";
+                salida += "\t\t\t\t\"TITULO\":\"" + lib.getTitulo() + "\",\n";
+                salida += "\t\t\t\t\"EDITORIAL\":\"" + lib.getEditorial() + "\",\n";
+                salida += "\t\t\t\t\"AUTOR\":\"" + lib.getAutor() + "\",\n";
+                salida += "\t\t\t\t\"EDICION\":" + lib.getEdicion() + ",\n";
+                salida += "\t\t\t\t\"CATEGORIA\":\"" + lib.getCategoria() + "\"\n";
+                salida += "\t\t\t\t}\n\t\t\t\t]";
             }
         } else if (involucrado instanceof Usuario) {
             Usuario user = (Usuario) involucrado;
-            salida += "\t\t\"" + tipo.toString() + "\":[\n\t\t\t{\n";
-            salida += "\t\t\t\"Carnet\":" + user.getCarnet() + ",\n";
-            salida += "\t\t\t\"Nombre\":\"" + user.getNombre() + "\",\n";
-            salida += "\t\t\t\"Apellido\":\"" + user.getApellido() + "\",\n";
-            salida += "\t\t\t\"Carrera\":\"" + user.getCarrera() + "\",\n";
-            salida += "\t\t\t\"Password\":\"" + user.getContraseña() + "\"\n";
-            salida += "\t\t\t}\n\t\t]";
+            salida += "\t\t\t\"" + tipo.toString() + "\":[\n\t\t\t\t{\n";
+            salida += "\t\t\t\t\"Carnet\":" + user.getCarnet() + ",\n";
+            salida += "\t\t\t\t\"Nombre\":\"" + user.getNombre() + "\",\n";
+            salida += "\t\t\t\t\"Apellido\":\"" + user.getApellido() + "\",\n";
+            salida += "\t\t\t\t\"Carrera\":\"" + user.getCarrera() + "\",\n";
+            salida += "\t\t\t\t\"Password\":\"" + user.getContraseña() + "\"\n";
+            salida += "\t\t\t\t}\n\t\t\t\t]";
         } else {
             Categoria cat = (Categoria) involucrado;
-            salida += "\t\t\"" + tipo.toString() + "\":[\n\t\\tt{\n";
-            salida += "\t\t\t\"Nombre\":\"" + cat.getNombre() + "\"\n";
-            salida += "\t\t\t}\n\t\t]";
+            salida += "\t\t\t\"" + tipo.toString() + "\":[\n\t\t\t\t{\n";
+            salida += "\t\t\t\t\"Nombre\":\"" + cat.getNombre() + "\"\n";
+            salida += "\t\t\t\t}\n\t\t\t\t\t]";
         }
         return salida;
     }
