@@ -5,8 +5,8 @@
  */
 package Objetos;
 
+import Estructuras.Arboles.B.ArbolB;
 import Estructuras.Arboles.Comparador;
-import Estructuras.Arboles.B.BTree;
 import Estructuras.Listas.SimplementeEnlazada.SimpleMenteEnlazada;
 
 /**
@@ -17,7 +17,7 @@ public class Categoria implements Comparador {
 
     private String Nombre;
     private String carpeta;
-    BTree<Integer, Libro> arbol;
+    ArbolB arbol;
     private int Carnet;
 
     public int getCarnet() {
@@ -28,14 +28,14 @@ public class Categoria implements Comparador {
         this.Carnet = Carnet;
     }
 
-    public BTree<Integer, Libro> getArbol() {
+    public ArbolB getArbol() {
         return arbol;
     }
 
     public Categoria(String Nombre) {
         this.Nombre = Nombre;
-        arbol = new BTree();
-        arbol.setCategory(Nombre);
+        arbol = new ArbolB(5);
+        arbol.setCategoria(Nombre);
         this.carpeta = "";
     }
 
@@ -89,12 +89,12 @@ public class Categoria implements Comparador {
     }
 
     public void insertarLibro(int ISBN, Libro libro) {
-        this.arbol.insert(ISBN, libro);
+        this.arbol.insertar(libro);
         this.arbol.dot();
     }
 
     public void eliminarLibro(int ISBN) {
-        this.arbol.delete(ISBN);
+        this.arbol.quitar(ISBN);
         this.arbol.dot();
     }
 
@@ -107,7 +107,7 @@ public class Categoria implements Comparador {
     }
 
     public long librosAsociados() {
-        return arbol.size();
+        return arbol.librosAsociados();
     }
 
 }

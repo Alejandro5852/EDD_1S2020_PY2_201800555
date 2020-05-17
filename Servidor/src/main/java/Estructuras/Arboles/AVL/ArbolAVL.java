@@ -437,7 +437,7 @@ public class ArbolAVL {
         SimpleMenteEnlazada categorias = objetos(0);
         for (int i = 0; i < categorias.Tamaño(); i++) {
             Categoria temp = (Categoria) categorias.at(i);
-            if (temp.getArbol().search(ISBN) != null) {
+            if (temp.getArbol().buscar(ISBN) != null) {
                 encontrado = true;
                 break;
             }
