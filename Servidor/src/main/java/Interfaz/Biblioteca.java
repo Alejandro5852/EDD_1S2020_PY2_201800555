@@ -21,8 +21,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
@@ -897,7 +900,7 @@ public class Biblioteca extends javax.swing.JFrame {
 
         jButton14.setBackground(new java.awt.Color(102, 102, 102));
         jButton14.setForeground(new java.awt.Color(255, 0, 0));
-        jButton14.setText("Eliminar mi cuenta");
+        jButton14.setText("Cerrar Sesión");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton14ActionPerformed(evt);
@@ -944,7 +947,7 @@ public class Biblioteca extends javax.swing.JFrame {
                         .addComponent(jLabel28)
                         .addGap(117, 117, 117)
                         .addComponent(jLabel30)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
                         .addComponent(jButton14)))
                 .addGap(55, 55, 55))
             .addGroup(jPanel9Layout.createSequentialGroup()
@@ -1115,7 +1118,7 @@ public class Biblioteca extends javax.swing.JFrame {
         File users = chooser.getSelectedFile();
         try {
             JsonParser parser = new JsonParser();
-            Object objects = parser.parse(new FileReader(users));
+            Object objects = parser.parse(new BufferedReader(new InputStreamReader(new FileInputStream(users), "UTF-8")));
             JsonObject jsonObject = (JsonObject) objects;
             JsonArray libros = (JsonArray) jsonObject.get("libros");
             for (int i = 0; i < libros.size(); i++) {
@@ -1399,19 +1402,6 @@ public class Biblioteca extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-        servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_USUARIO, usuario);
-        SimpleMenteEnlazada libros = servidor.bibliotecaUsuario(usuario.getCarnet());
-        SimpleMenteEnlazada categorias = servidor.categoriasUsuario(usuario.getCarnet());
-        for (int i = 0; i < libros.Tamaño(); i++) {
-            Libro temp = (Libro) libros.at(i);
-            servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_LIBRO, temp);
-        }
-        for (int i = 0; i < libros.Tamaño(); i++) {
-            Categoria temp = (Categoria) categorias.at(i);
-            servidor.nuevaOperacion(Operacion.Tipo.ELIMINAR_CATEGORIA, temp);
-        }
-        servidor.nuevoBloque();
         this.setVisible(false);
         InicioSesion inicio = new InicioSesion();
         inicio.setServidor(servidor);
